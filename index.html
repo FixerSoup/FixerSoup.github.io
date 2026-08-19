@@ -1,0 +1,2209 @@
+<!--
+  ============================================================================
+  MERGED PORTFOLIO PAGE — combines the animated AI-agent hero intro
+  (agent-portfolio-intro_1.html) with the full portfolio page
+  (profile-portfolio.html) into a single index.html.
+  ============================================================================
+  HOW TO USE
+  1. Rename/keep this file as index.html and push it to the root of your
+     username.github.io repo (or a project repo with Pages enabled).
+  2. Every placeholder is wrapped like  <span class="ph">#LIKE_THIS#</span>
+     or <span class="ap-ph">#LIKE_THIS#</span> and renders in blue so it's
+     obvious what still needs your real info. Use Ctrl+F for "#" to jump
+     between them.
+  3. The animated AI-agent hero section (id="ap-agent-hero") sits at the
+     top of the page, followed by the full portfolio content (About,
+     Education, Skills, Projects, Experience, Certifications, GitHub Stats,
+     Contact).
+  ============================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOUPTIK MITRA — AI Agent Portfolio Intro &amp; Data Scientist / AI Engineer Portfolio</title>
+    <style>
+        /* ============================================================
+       STYLES — AI Agent Hero Intro (scoped to #ap-agent-hero)
+       ============================================================ */
+        #ap-agent-hero {
+            --bg-deep: #070a14;
+            --bg-mid: #0d1326;
+            --accent-blue: #3b82f6;
+            --accent-blue-light: #60a5fa;
+            --accent-cyan: #22d3ee;
+            --accent-violet: #8b5cf6;
+            --text-main: #e6ebf5;
+            --text-dim: #8892b0;
+            --glass: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        #ap-agent-hero,
+        #ap-agent-hero * {
+            box-sizing: border-box;
+        }
+
+        #ap-agent-hero {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        #ap-agent-hero {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+            background: radial-gradient(ellipse at 50% 20%, #131b36 0%, var(--bg-deep) 60%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* ---------- floating neural-network backdrop ---------- */
+        #ap-agent-hero .ap-net-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+        }
+
+        .ap-net-node {
+            animation: netPulse 4s ease-in-out infinite;
+        }
+
+        .ap-net-line {
+            stroke: var(--accent-blue);
+            stroke-opacity: 0.15;
+        }
+
+        @keyframes netPulse {
+
+            0%,
+            100% {
+                opacity: 0.25;
+                r: 1.6;
+            }
+
+            50% {
+                opacity: 0.9;
+                r: 2.6;
+            }
+        }
+
+        /* ---------- layout ---------- */
+        .ap-stage {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+            max-width: 920px;
+            width: 100%;
+        }
+
+        .ap-id-badge {
+            text-align: center;
+        }
+
+        .ap-id-badge .ap-name {
+            font-size: clamp(24px, 4vw, 40px);
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+        }
+
+        .ap-id-badge .ap-role {
+            margin-top: 6px;
+            font-size: clamp(13px, 2vw, 17px);
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        .ap-ph {
+            color: var(--accent-blue-light);
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-weight: 700;
+            background: rgba(59, 130, 246, 0.12);
+            padding: 1px 6px;
+            border-radius: 5px;
+            border: 1px solid rgba(96, 165, 250, 0.35);
+            white-space: nowrap;
+        }
+
+        /* ---------- agent + speech row ---------- */
+        .ap-agent-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .ap-agent-wrap {
+            position: relative;
+            width: 260px;
+            height: 300px;
+            flex-shrink: 0;
+            animation: floatY 4.5s ease-in-out infinite;
+        }
+
+        @keyframes floatY {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-14px);
+            }
+        }
+
+        /* ---------- greeting gesture: folded hands ---------- */
+        .ap-arm-left,
+        .ap-arm-right {
+            transform-box: view-box;
+        }
+
+        .ap-agent-wrap.ap-greeting .ap-arm-left {
+            animation: armFoldLeft 2.8s cubic-bezier(.34, 1.4, .64, 1) 1;
+        }
+
+        .ap-agent-wrap.ap-greeting .ap-arm-right {
+            animation: armFoldRight 2.8s cubic-bezier(.34, 1.4, .64, 1) 1;
+        }
+
+        .ap-agent-wrap.ap-greeting #ap-head-group {
+            animation: headNod 2.8s ease-in-out 1;
+        }
+
+        .ap-agent-wrap.ap-greeting #ap-greet-flash {
+            animation: greetFlash 2.8s ease-in-out 1;
+        }
+
+        @keyframes armFoldLeft {
+            0% {
+                transform: rotate(0deg) translate(0, 0);
+            }
+
+            42% {
+                transform: rotate(58deg) translate(15px, -6px);
+            }
+
+            68% {
+                transform: rotate(58deg) translate(15px, -6px);
+            }
+
+            100% {
+                transform: rotate(0deg) translate(0, 0);
+            }
+        }
+
+        @keyframes armFoldRight {
+            0% {
+                transform: rotate(0deg) translate(0, 0);
+            }
+
+            42% {
+                transform: rotate(-58deg) translate(-15px, -6px);
+            }
+
+            68% {
+                transform: rotate(-58deg) translate(-15px, -6px);
+            }
+
+            100% {
+                transform: rotate(0deg) translate(0, 0);
+            }
+        }
+
+        @keyframes headNod {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            48% {
+                transform: rotate(9deg);
+            }
+
+            58% {
+                transform: rotate(9deg);
+            }
+        }
+
+        @keyframes greetFlash {
+
+            0%,
+            38% {
+                opacity: 0;
+                r: 4;
+            }
+
+            50% {
+                opacity: .9;
+                r: 34;
+            }
+
+            68% {
+                opacity: 0;
+                r: 40;
+            }
+
+            100% {
+                opacity: 0;
+                r: 4;
+            }
+        }
+
+        #ap-head-group {
+            transform-box: view-box;
+            transform-origin: 130px 152px;
+        }
+
+        /* ---------- blinking eyes ---------- */
+        .ap-eye {
+            transform-box: view-box;
+            transition: transform .09s ease;
+        }
+
+        .ap-eye.ap-blink {
+            transform: scaleY(0.08);
+        }
+
+        /* ---------- first-visit "tap to wake" hint ---------- */
+        #ap-agent-hero .ap-wake-hint {
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            border-radius: 999px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(6px);
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: .01em;
+            white-space: nowrap;
+            box-shadow: 0 0 0 0 rgba(59, 130, 246, .5);
+            animation: apWakePulse 2.1s ease-in-out infinite, apWakeFloat 2.6s ease-in-out infinite;
+            opacity: 0;
+            animation-fill-mode: forwards;
+            animation-delay: .4s, .4s;
+            pointer-events: none;
+            transition: opacity .5s ease, transform .5s ease;
+        }
+
+        #ap-agent-hero .ap-wake-hint.ap-wake-visible {
+            opacity: 1;
+        }
+
+        #ap-agent-hero .ap-wake-hint.ap-wake-hide {
+            opacity: 0 !important;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        #ap-agent-hero .ap-wake-hint .ap-wake-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 8px var(--accent-cyan);
+            flex-shrink: 0;
+        }
+
+        @keyframes apWakePulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 211, 238, .35);
+            }
+
+            50% {
+                box-shadow: 0 0 0 8px rgba(34, 211, 238, 0);
+            }
+        }
+
+        @keyframes apWakeFloat {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-4px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            #ap-agent-hero .ap-wake-hint {
+                top: 12px;
+                font-size: 12px;
+                padding: 8px 12px;
+                max-width: 88%;
+                white-space: normal;
+                text-align: center;
+            }
+        }
+
+        /* ---------- voice control pill ---------- */
+        .ap-btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 14px;
+        }
+
+        .ap-voice-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 0;
+            padding: 9px 18px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.16), rgba(139, 92, 246, 0.14));
+            border: 1px solid var(--accent-cyan, #22d3ee);
+            color: var(--text-main, #e6ebf5);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .2px;
+            cursor: pointer;
+            transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+            box-shadow: 0 0 0 rgba(34, 211, 238, 0);
+        }
+
+        .ap-voice-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(34, 211, 238, 0.25);
+            border-color: #a78bfa;
+        }
+
+        .ap-voice-btn:active {
+            transform: translateY(0px) scale(.98);
+        }
+
+        .ap-voice-btn .ap-voice-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22d3ee;
+            box-shadow: 0 0 8px #22d3ee;
+            animation: blinkCursor 1.4s steps(1) infinite;
+        }
+
+        .ap-voice-btn.ap-voice-on .ap-voice-dot {
+            background: #ff5da2;
+            box-shadow: 0 0 10px #ff5da2;
+        }
+
+        .ap-agent-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .ap-speech-bubble {
+            position: relative;
+            max-width: 460px;
+            min-height: 96px;
+            background: linear-gradient(160deg, rgba(59, 130, 246, 0.10), rgba(139, 92, 246, 0.06));
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(6px);
+            border-radius: 20px;
+            padding: 22px 26px;
+            color: var(--text-main);
+            font-size: 16px;
+            line-height: 1.55;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 0 40px rgba(59, 130, 246, 0.03);
+        }
+
+        .ap-speech-bubble::before {
+            content: "";
+            position: absolute;
+            left: -14px;
+            top: 44px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 16px solid rgba(59, 130, 246, 0.10);
+        }
+
+        .ap-speech-bubble .ap-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: var(--accent-cyan);
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blinkCursor 0.9s steps(1) infinite;
+        }
+
+        @keyframes blinkCursor {
+
+            0%,
+            49% {
+                opacity: 1;
+            }
+
+            50%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* ---------- badges strip (skills / links) ---------- */
+        .ap-badge-strip {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .ap-badge-strip .ap-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-dim);
+            font-size: 13px;
+            font-weight: 600;
+            transition: transform .25s ease, border-color .25s ease;
+        }
+
+        .ap-badge-strip .ap-chip:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-blue);
+            color: var(--text-main);
+        }
+
+        .ap-badge-strip .ap-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 8px var(--accent-cyan);
+        }
+
+        @media (max-width:640px) {
+            .ap-agent-row {
+                flex-direction: column;
+            }
+
+            .ap-speech-bubble::before {
+                display: none;
+            }
+        }
+
+        /* ============================================================
+       STYLES — Portfolio Page
+       ============================================================ */
+        :root {
+            --bg-deep: #04060f;
+            --bg-panel: #0a0f22;
+            --bg-panel-2: #0d1428;
+            --accent-blue: #3b82f6;
+            --accent-blue-light: #60a5fa;
+            --accent-cyan: #22d3ee;
+            --accent-violet: #8b5cf6;
+            --text-main: #e6ebf5;
+            --text-dim: #94a0bd;
+            --text-faint: #5c6789;
+            --glass: rgba(255, 255, 255, 0.035);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(ellipse 900px 500px at 15% 0%, rgba(59, 130, 246, 0.10), transparent 60%),
+                radial-gradient(ellipse 900px 500px at 85% 15%, rgba(139, 92, 246, 0.08), transparent 60%),
+                var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--accent-blue-light);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--accent-cyan);
+        }
+
+        code {
+            font-family: 'Consolas', 'Courier New', monospace;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--accent-blue-light);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            border: 1px solid var(--glass-border);
+        }
+
+        .ph {
+            color: var(--accent-blue-light);
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-weight: 700;
+            background: rgba(59, 130, 246, 0.14);
+            padding: 1px 7px;
+            border-radius: 5px;
+            border: 1px solid rgba(96, 165, 250, 0.4);
+        }
+
+        .page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px 100px;
+        }
+
+        /* ---------- hero ---------- */
+        .hero {
+            text-align: center;
+            padding-bottom: 36px;
+        }
+
+        .hero .wave {
+            font-size: 34px;
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 44px);
+            margin: 6px 0 10px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+        }
+
+        .hero .tagline {
+            color: var(--text-dim);
+            font-size: clamp(15px, 2.2vw, 19px);
+            margin-bottom: 26px;
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .badge-row a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform .2s ease, border-color .2s ease, color .2s ease;
+        }
+
+        .badge-row a:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .badge-row a .badge-icon {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        /* ---------- section shell ---------- */
+        section {
+            margin-top: 64px;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .section-head .icon {
+            font-size: 22px;
+        }
+
+        .section-head h2 {
+            font-size: 22px;
+            margin: 0;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .panel {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px 26px;
+            backdrop-filter: blur(6px);
+        }
+
+        .panel p {
+            color: var(--text-main);
+            margin: 0 0 14px;
+        }
+
+        .panel p:last-child {
+            margin-bottom: 0;
+        }
+
+        .panel strong {
+            color: var(--accent-blue-light);
+        }
+
+        .panel em {
+            color: var(--accent-cyan);
+            font-style: italic;
+        }
+
+        .bullet-list {
+            list-style: none;
+            margin: 16px 0 0;
+            padding: 0;
+        }
+
+        .bullet-list li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: 8px 0;
+            color: var(--text-main);
+        }
+
+        .bullet-list .emoji {
+            flex-shrink: 0;
+        }
+
+        /* ---------- education ---------- */
+        .edu-card h3 {
+            margin: 0 0 4px;
+            font-size: 18px;
+            color: var(--text-main);
+        }
+
+        .edu-meta {
+            color: var(--accent-blue-light);
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .edu-card ul {
+            margin: 8px 0 0;
+            padding-left: 20px;
+            color: var(--text-dim);
+        }
+
+        .edu-card li {
+            margin-bottom: 4px;
+        }
+
+        /* ---------- skills ---------- */
+        .skill-group {
+            margin-bottom: 20px;
+        }
+
+        .skill-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .skill-group .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-faint);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .chip {
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: var(--bg-panel);
+            border: 1px solid var(--glass-border);
+            color: var(--text-dim);
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Consolas', 'Courier New', monospace;
+            transition: transform .2s ease, border-color .2s ease, color .2s ease;
+        }
+
+        .chip:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+            color: var(--text-main);
+        }
+
+        /* ---------- projects ---------- */
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+
+        .project-section {
+            margin-bottom: 16px;
+        }
+
+        .project-section h4 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .project-section h4::before {
+            content: "";
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: var(--accent-blue-light);
+            flex-shrink: 0;
+        }
+
+        .links-section {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .links-section h4 {
+            margin: 0 0 12px 0;
+        }
+
+        .links-section .links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .links-section .links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 600;
+            transition: transform .2s ease, border-color .2s ease, color .2s ease;
+        }
+
+        .links-section .links a:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .links-section .links a .badge-icon {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+        .project-card {
+            background: linear-gradient(160deg, rgba(59, 130, 246, 0.07), rgba(139, 92, 246, 0.04));
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform .25s ease, border-color .25s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-blue);
+        }
+
+        .project-card h3 {
+            margin: 0;
+            font-size: 17px;
+            color: var(--text-main);
+        }
+
+        .project-card .desc {
+            color: var(--text-dim);
+            font-size: 14px;
+        }
+
+        .project-card .row {
+            font-size: 13.5px;
+            color: var(--text-dim);
+        }
+
+        .project-card .row b {
+            color: var(--accent-blue-light);
+            font-weight: 700;
+        }
+
+        .project-card .stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .project-card .stack .chip {
+            padding: 3px 10px;
+            font-size: 11.5px;
+        }
+
+        .project-card .links {
+            margin-top: auto;
+            padding-top: 8px;
+            font-size: 13.5px;
+        }
+
+        .project-card .links a {
+            margin-right: 14px;
+        }
+
+        /* ---------- experience / certs ---------- */
+        .exp-card {
+            margin-bottom: 18px;
+        }
+
+        .exp-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .exp-card h3 {
+            margin: 0;
+            font-size: 16.5px;
+            color: var(--text-main);
+        }
+
+        .exp-card .exp-meta {
+            color: var(--accent-blue-light);
+            font-size: 13.5px;
+            margin: 2px 0 10px;
+        }
+
+        .cert-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cert-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-main);
+        }
+
+        .cert-list li:last-child {
+            border-bottom: none;
+        }
+
+        .cert-list .issuer {
+            color: var(--text-dim);
+            font-size: 13.5px;
+        }
+
+        /* ---------- github stats ---------- */
+        .stats-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .stats-wrap img {
+            max-width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        /* ---------- contact footer ---------- */
+        .contact {
+            text-align: center;
+        }
+
+        .contact p {
+            color: var(--text-dim);
+            max-width: 560px;
+            margin: 0 auto 22px;
+        }
+
+        .contact p strong {
+            color: var(--accent-blue-light);
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 22px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 36px;
+        }
+
+        .contact-links a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 999px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .contact-links a:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .updated {
+            text-align: center;
+            color: var(--text-faint);
+            font-size: 13px;
+            font-style: italic;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section id="ap-agent-hero" role="img" aria-label="Animated AI agent introducing the portfolio owner">
+
+        <!-- ============ first-visit "tap anywhere" wake hint ============ -->
+        <div class="ap-wake-hint" id="ap-wake-hint" aria-hidden="true">
+            <span class="ap-wake-dot"></span>
+            <span id="ap-wake-hint-text">✨ Tap anywhere to wake me up...</span>
+        </div>
+
+        <!-- ============ animated neural-net background ============ -->
+        <svg class="ap-net-bg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+            <g class="ap-net-line">
+                <line x1="80" y1="120" x2="260" y2="240" />
+                <line x1="260" y1="240" x2="180" y2="420" />
+                <line x1="900" y1="140" x2="740" y2="300" />
+                <line x1="740" y1="300" x2="860" y2="480" />
+                <line x1="120" y1="780" x2="300" y2="640" />
+                <line x1="820" y1="820" x2="680" y2="700" />
+                <line x1="500" y1="60" x2="420" y2="200" />
+                <line x1="500" y1="940" x2="560" y2="800" />
+            </g>
+            <circle class="ap-net-node" cx="80" cy="120" r="2" fill="#60a5fa" style="animation-delay:0s" />
+            <circle class="ap-net-node" cx="260" cy="240" r="2" fill="#22d3ee" style="animation-delay:.3s" />
+            <circle class="ap-net-node" cx="180" cy="420" r="2" fill="#8b5cf6" style="animation-delay:.6s" />
+            <circle class="ap-net-node" cx="900" cy="140" r="2" fill="#60a5fa" style="animation-delay:.9s" />
+            <circle class="ap-net-node" cx="740" cy="300" r="2" fill="#22d3ee" style="animation-delay:1.2s" />
+            <circle class="ap-net-node" cx="860" cy="480" r="2" fill="#8b5cf6" style="animation-delay:1.5s" />
+            <circle class="ap-net-node" cx="120" cy="780" r="2" fill="#60a5fa" style="animation-delay:1.8s" />
+            <circle class="ap-net-node" cx="300" cy="640" r="2" fill="#22d3ee" style="animation-delay:2.1s" />
+            <circle class="ap-net-node" cx="820" cy="820" r="2" fill="#8b5cf6" style="animation-delay:2.4s" />
+            <circle class="ap-net-node" cx="680" cy="700" r="2" fill="#60a5fa" style="animation-delay:2.7s" />
+            <circle class="ap-net-node" cx="500" cy="60" r="2" fill="#22d3ee" style="animation-delay:3.0s" />
+            <circle class="ap-net-node" cx="420" cy="200" r="2" fill="#8b5cf6" style="animation-delay:3.3s" />
+            <circle class="ap-net-node" cx="500" cy="940" r="2" fill="#60a5fa" style="animation-delay:3.6s" />
+            <circle class="ap-net-node" cx="560" cy="800" r="2" fill="#22d3ee" style="animation-delay:3.9s" />
+        </svg>
+
+        <div class="ap-stage">
+
+            <!-- ============ HERO (name, tagline, badges) ============ -->
+            <header class="hero" style="padding-bottom:0;">
+                <div class="wave">👋</div>
+                <h1>Hi, I'm <span class="ph">Souptik</span></h1>
+                <div class="tagline">
+                    <strong style="color:var(--text-main)">Data Scientist / AI Engineer</strong> (Aspiring) — turning
+                    raw,
+                    messy
+                    data into future decisions.
+                </div>
+                <div class="badge-row">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=soup28mitr@gmail.com&su=Subject%20Here&body=Hello%2C%0A%0AThis%20is%20the%20message."
+                        style="color:#ea4335;">
+                        <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="16" rx="2" />
+                            <path d="M22 6l-10 7L2 6" />
+                        </svg>
+                        <span>Email Me</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/souptikmitra/" style="color:#0a66c2;">
+                        <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/FixerSoup" style="color:#e6ebf5;">
+                        <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.807 1.305 3.492.998.108-.776.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.955-.266 1.98-.399 3-.405 1.02.006 2.045.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                        </svg>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="https://www.reddit.com/user/Think-Vacation-4882/" style="color:#ff4500;">
+                        <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 013.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 000 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 00.029-.463.33.33 0 00-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.232-.095z" />
+                        </svg>
+                        <span>Reddit</span>
+                    </a>
+                    <a href="https://x.com/bhim28mitr" style="color:cyan;">
+                        <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                        <span>Twitter</span>
+                    </a>
+                </div>
+            </header>
+
+            <!-- ============ agent + speech bubble ============ -->
+            <div class="ap-agent-row">
+
+                <div class="ap-agent-col">
+                    <!-- ---------- THE AGENT (SVG) ---------- -->
+                    <div class="ap-agent-wrap" id="ap-agent-wrap">
+                        <svg viewBox="0 0 260 300" width="100%" height="100%">
+                            <defs>
+                                <radialGradient id="auraGrad" cx="50%" cy="45%" r="60%">
+                                    <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.55" />
+                                    <stop offset="100%" stop-color="#60a5fa" stop-opacity="0" />
+                                </radialGradient>
+                                <linearGradient id="headGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#1e2a4a" />
+                                    <stop offset="100%" stop-color="#0f1730" />
+                                </linearGradient>
+                                <linearGradient id="visorGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#22d3ee" />
+                                    <stop offset="100%" stop-color="#3b82f6" />
+                                </linearGradient>
+                                <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#a78bfa" />
+                                    <stop offset="100%" stop-color="#ff5da2" />
+                                </linearGradient>
+                                <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+                                    <feGaussianBlur stdDeviation="4" result="blur" />
+                                    <feMerge>
+                                        <feMergeNode in="blur" />
+                                        <feMergeNode in="SourceGraphic" />
+                                    </feMerge>
+                                </filter>
+                            </defs>
+
+                            <!-- pulsing aura behind agent -->
+                            <circle cx="130" cy="150" r="128" fill="url(#auraGrad)">
+                                <animate attributeName="r" values="118;134;118" dur="3s" repeatCount="indefinite"
+                                    calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+                            </circle>
+
+                            <!-- orbiting skill ring -->
+                            <g>
+                                <animateTransform attributeName="transform" type="rotate" from="0 130 130"
+                                    to="360 130 130" dur="18s" repeatCount="indefinite" />
+                                <circle cx="130" cy="130" r="98" fill="none" stroke="#3b82f6" stroke-opacity="0.18"
+                                    stroke-width="1" stroke-dasharray="4 6" />
+                                <g transform="translate(130,32)">
+                                    <circle r="14" fill="#101a33" stroke="#3b82f6" stroke-width="1.4" />
+                                    <text x="0" y="4" text-anchor="middle" font-size="11" fill="#60a5fa"
+                                        font-family="Consolas,monospace">Py</text>
+                                </g>
+                                <g transform="translate(228,130)">
+                                    <circle r="14" fill="#101a33" stroke="#22d3ee" stroke-width="1.4" />
+                                    <text x="0" y="4" text-anchor="middle" font-size="10" fill="#22d3ee"
+                                        font-family="Consolas,monospace">ML</text>
+                                </g>
+                                <g transform="translate(130,228)">
+                                    <circle r="14" fill="#101a33" stroke="#8b5cf6" stroke-width="1.4" />
+                                    <text x="0" y="4" text-anchor="middle" font-size="10" fill="#a78bfa"
+                                        font-family="Consolas,monospace">AI</text>
+                                </g>
+                                <g transform="translate(32,130)">
+                                    <circle r="14" fill="#101a33" stroke="#3b82f6" stroke-width="1.4" />
+                                    <text x="0" y="4" text-anchor="middle" font-size="10" fill="#60a5fa"
+                                        font-family="Consolas,monospace">SQL</text>
+                                </g>
+                            </g>
+
+                            <!-- =============== HEAD GROUP (nods on greeting) =============== -->
+                            <g id="ap-head-group">
+
+                                <!-- antenna -->
+                                <line x1="130" y1="46" x2="130" y2="24" stroke="#3b82f6" stroke-width="3"
+                                    stroke-linecap="round" />
+                                <circle cx="130" cy="20" r="6" fill="#22d3ee" filter="url(#softGlow)">
+                                    <animate attributeName="opacity" values="1;0.35;1" dur="1.6s"
+                                        repeatCount="indefinite" />
+                                </circle>
+
+                                <!-- ears: sensor fins either side of the head -->
+                                <rect x="58" y="80" width="12" height="34" rx="6" fill="url(#coreGrad)" opacity="0.85"
+                                    filter="url(#softGlow)">
+                                    <animate attributeName="opacity" values="0.55;0.95;0.55" dur="2.6s"
+                                        repeatCount="indefinite" />
+                                </rect>
+                                <rect x="190" y="80" width="12" height="34" rx="6" fill="url(#coreGrad)" opacity="0.85"
+                                    filter="url(#softGlow)">
+                                    <animate attributeName="opacity" values="0.95;0.55;0.95" dur="2.6s"
+                                        repeatCount="indefinite" />
+                                </rect>
+
+                                <!-- head -->
+                                <rect x="72" y="46" width="116" height="104" rx="34" fill="url(#headGrad)"
+                                    stroke="#3b82f6" stroke-opacity="0.5" stroke-width="1.5" />
+
+                                <!-- face plate -->
+                                <rect x="88" y="72" width="84" height="52" rx="16" fill="#060b18" />
+
+                                <!-- eyes: two independent glowing eyes that blink -->
+                                <g id="ap-eye-left" class="ap-eye" transform="translate(112,90)">
+                                    <rect x="-13" y="-10" width="26" height="20" rx="9" fill="url(#visorGrad)"
+                                        filter="url(#softGlow)" />
+                                </g>
+                                <g id="ap-eye-right" class="ap-eye" transform="translate(148,90)">
+                                    <rect x="-13" y="-10" width="26" height="20" rx="9" fill="url(#visorGrad)"
+                                        filter="url(#softGlow)" />
+                                </g>
+
+                                <!-- nose: small low-contrast sensor vent -->
+                                <rect x="126" y="104" width="8" height="4" rx="2" fill="#3b82f6" opacity="0.55" />
+
+                                <!-- mouth: audio-bar style, animates while "talking" -->
+                                <g id="ap-mouth-bars" transform="translate(105,114)">
+                                    <rect class="ap-bar" x="0" y="6" width="6" height="4" rx="2" fill="#60a5fa" />
+                                    <rect class="ap-bar" x="10" y="2" width="6" height="8" rx="2" fill="#60a5fa" />
+                                    <rect class="ap-bar" x="20" y="4" width="6" height="6" rx="2" fill="#60a5fa" />
+                                    <rect class="ap-bar" x="30" y="0" width="6" height="10" rx="2" fill="#60a5fa" />
+                                    <rect class="ap-bar" x="40" y="4" width="6" height="6" rx="2" fill="#60a5fa" />
+                                </g>
+                            </g>
+
+                            <!-- body / chest console -->
+                            <rect x="88" y="156" width="84" height="70" rx="18" fill="url(#headGrad)" stroke="#3b82f6"
+                                stroke-opacity="0.4" stroke-width="1.5" />
+                            <path d="M100 190 h14 l6 -14 l8 26 l6 -18 l6 6 h14" fill="none" stroke="#22d3ee"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlow)">
+                                <animate attributeName="stroke-dashoffset" values="120;0" dur="2.4s"
+                                    repeatCount="indefinite" />
+                                <animate attributeName="stroke-dasharray" values="120" dur="2.4s"
+                                    repeatCount="indefinite" />
+                            </path>
+
+                            <!-- greeting flash burst — pulses the instant the folded hands meet -->
+                            <circle id="ap-greet-flash" cx="130" cy="196" r="4" fill="url(#coreGrad)" opacity="0"
+                                filter="url(#softGlow)" />
+
+                            <!-- =============== ARMS + HANDS (fold to greet) =============== -->
+                            <g class="ap-arm-left" style="transform-origin:86px 176px;">
+                                <rect x="70" y="172" width="18" height="9" rx="4.5" fill="url(#headGrad)"
+                                    stroke="#3b82f6" stroke-width="1.3" />
+                                <rect x="52" y="192" width="9" height="30" rx="4.5" fill="url(#headGrad)"
+                                    stroke="#3b82f6" stroke-width="1.3" transform="rotate(18 56 192)" />
+                                <circle cx="56" cy="222" r="9" fill="#101a33" stroke="#22d3ee" stroke-width="1.6"
+                                    filter="url(#softGlow)" />
+                            </g>
+                            <g class="ap-arm-right" style="transform-origin:174px 176px;">
+                                <rect x="172" y="172" width="18" height="9" rx="4.5" fill="url(#headGrad)"
+                                    stroke="#3b82f6" stroke-width="1.3" />
+                                <rect x="199" y="192" width="9" height="30" rx="4.5" fill="url(#headGrad)"
+                                    stroke="#3b82f6" stroke-width="1.3" transform="rotate(-18 204 192)" />
+                                <circle cx="204" cy="222" r="9" fill="#101a33" stroke="#22d3ee" stroke-width="1.6"
+                                    filter="url(#softGlow)" />
+                            </g>
+
+                            <!-- =============== LEGS + HOVER BASE =============== -->
+                            <rect x="112" y="226" width="10" height="30" rx="5" fill="url(#headGrad)" stroke="#3b82f6"
+                                stroke-opacity="0.55" stroke-width="1.2" />
+                            <rect x="138" y="226" width="10" height="30" rx="5" fill="url(#headGrad)" stroke="#3b82f6"
+                                stroke-opacity="0.55" stroke-width="1.2" />
+                            <ellipse cx="130" cy="264" rx="48" ry="9" fill="#0c1630" stroke="#22d3ee"
+                                stroke-width="1.5" />
+                            <ellipse cx="130" cy="267" rx="40" ry="6" fill="url(#visorGrad)" opacity="0.55"
+                                filter="url(#softGlow)">
+                                <animate attributeName="ry" values="5;8;5" dur="2.4s" repeatCount="indefinite" />
+                                <animate attributeName="opacity" values="0.35;0.7;0.35" dur="2.4s"
+                                    repeatCount="indefinite" />
+                            </ellipse>
+                        </svg>
+                    </div>
+
+                    <div class="ap-btn-row">
+                        <button type="button" class="ap-voice-btn" id="ap-voice-btn">
+                            <span class="ap-voice-dot"></span>
+                            <span id="ap-voice-btn-label">🔁 Replay Greeting</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ---------- SPEECH BUBBLE (typewriter) ---------- -->
+                <div class="ap-speech-bubble">
+                    <span id="ap-typed-text"></span><span class="ap-cursor"></span>
+                </div>
+            </div>
+
+            <!-- ============ quick links / skills strip ============ -->
+            <div class="ap-badge-strip">
+                <div class="ap-chip"><span class="ap-dot"></span>github.com/<span class="ap-ph">FixerSoup</span></div>
+                <div class="ap-chip"><span class="ap-dot"></span><span class="ap-ph">souptikmitra</span></div>
+                <div class="ap-chip"><span class="ap-dot"></span><span class="ap-ph">soup28mitr@gmail.com</span></div>
+            </div>
+        </div>
+
+        </div>
+    </section>
+
+    <div class="page">
+
+        <!-- ============ ABOUT ============ -->
+        <section id="about">
+            <div class="section-head"><span class="icon">🧭</span>
+                <h2>ABOUT ME</h2>
+            </div>
+            <div class="panel">
+                <p>I turn raw, messy data into decisions — building the AI/ML skillset to do it end-to-end.</p>
+                <p>Over the past <span class="ph">year</span>, I've gone from zero to hands-on across the modern data
+                    stack: cleaning and transforming data in <strong>Pandas</strong>, writing <strong>SQL</strong>
+                    queries in
+                    MySQL.I understand how to use AI models and local LLMS via API calls and use them in various ways.
+                </p>
+                <p><strong>How I work:</strong> I care about the fundamentals before the framework — I'd rather
+                    understand
+                    <em>why</em> a model behaves a certain way (bias-variance tradeoff, gradient flow, feature leakage)
+                    than just
+                    call <code>.fit()</code> and hope. I document my process, write reproducible code, and I'm
+                    comfortable
+                    defending my modeling choices, not just presenting the accuracy number.
+                </p>
+                <p><strong>Core toolkit: </strong> <code>Python</code> · <code>SQL</code> · <code>Pandas</code> ·
+                    <code>NumPy</code> · <code>Scikit-learn</code>· <code>ARIMA</code> · <code>A/B Testing</code>
+                </p>
+                <p>I'm actively looking for <strong>Data Scientist / AI Engineer internship and entry-level
+                        opportunities</strong> where I can apply and grow these skills on real business problems. Open
+                    to connecting
+                    — feel free to reach out or check out my projects below.</p>
+                <p
+                    style="margin-top:20px; color:var(--text-dim); font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:1px;">
+                    What I'm building / Learning right now</p>
+                <ul class="bullet-list">
+                    <li><span class="emoji">🤖</span><span>Integrating AI/LLMs with agents directly into data workflows
+                            — exploring
+                            how GenAI
+                            can automate parts of the analysis pipeline</span></li>
+                    <li><span class="emoji">🔧</span><span>Practicing Git for version control on every project, so my
+                            work is
+                            reproducible and collaboration-ready</span></li>
+                    <li><span class="emoji">📈</span><span>Sharpening core Machine Learning fundamentals to move from
+                            descriptive
+                            to predictive analytics</span></li>
+                    <li><span class="emoji">📊</span><span>Building a Time Series/Demand Forecasting project on
+                            a store dataset present in <a
+                                href='https://www.kaggle.com/competitions/demand-forecasting-kernels-only/data'>store_item_demand_forecasting_challenge_in_kaggle</a>
+                            <em>how</em> a number is shown as <em>what</em> it says</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============ EDUCATION ============ -->
+        <section id="education">
+            <div class="section-head"><span class="icon">🎓</span>
+                <h2>EDUCATION</h2>
+            </div>
+            <div class="panel edu-card">
+                <h3><span>B.Tech In Computer Science With Specialization in Data Science</span>, <span>KIIT,
+                        Bhuwaneshwar</span></h3>
+                <div class="edu-meta">
+                    <h4><span>2024</span> – <span>2028</span> · CGPA:
+                        <span>9.03</span> / 10
+                </div>
+                <ul>
+                    <li><span>RELEVANT_COURSEWORK</span> — e.g. Statistics, Data Structures, Machine
+                        Learning,
+                        Databases</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============ SKILLS ============ -->
+        <section id="skills">
+            <div class="section-head"><span class="icon">🛠️</span>
+                <h2>SKILLSET</h2>
+            </div>
+            <div class="panel">
+                <div class="skill-group">
+                    <div class="label">Languages</div>
+                    <div class="chip-row"><span class="chip">Python</span><span class="chip">SQL</span><span
+                            class="chip">C++</span></div>
+                </div>
+                <div class="skill-group">
+                    <div class="label">Data Manipulation &amp; Analysis</div>
+                    <div class="chip-row"><span class="chip">Pandas</span><span class="chip">NumPy</span><span
+                            class="chip">Google
+                            Sheets</span><span class="chip">Matplotlib</span><span class="chip">seaborn</span><span
+                            class="chip">streamlit</span><span class="chip">uvicorn</span><span
+                            class="chip">google-genai</span>
+                    </div>
+                    <div class="skill-group">
+                        <div class="label">Machine Learning</div>
+                        <div class="chip-row"><span class="chip">Scikit-learn</span><span class="chip">RandomForest
+                                Classifier</span><span class="chip">KMeans-Clustering</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <div class="label">Statistics &amp; Experimentation</div>
+                        <div class="chip-row"><span class="chip">Statistical Inference</span><span
+                                class="chip">Hypothesis
+                                Testing</span><span class="chip">A/B Testing</span><span class="chip">Probability</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <div class="label">Databases</div>
+                        <div class="chip-row"><span class="chip">PostgreSQL</span><span class="chip">MySQL</span></div>
+                    </div>
+                    <div class="skill-group">
+                        <div class="label">AI Agents/ GenAI &amp; LLM Integration</div>
+                        <div class="chip-row"><span class="chip ph">Claude Code</span><span
+                                class="chip ph">gemma4:cloud</span><span class="chip ph">glm-5.2:cloud</span><span
+                                class="chip ph">nemotron-3-super:cloud</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <div class="label">Tools &amp; Workflow</div>
+                        <div class="chip-row"><span class="chip">Git & GitHub</span><span
+                                class="chip">Docker</span><span class="chip">Figma</span><span
+                                class="chip">n8n</span><span class="chip">Jupyter
+                                Notebook</span><span class="chip">PostgreSQL</span><span class="chip ph">vs code</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <div class="label">Visualization</div>
+                        <div class="chip-row"><span class="chip ph">Power BI</span></div>
+                    </div>
+                </div>
+        </section>
+
+        <!-- ============ PROJECTS ============ -->
+        <section id="projects">
+            <div class="section-head"><span class="icon">🚀</span>
+                <h2>PROJECTS</h2>
+            </div>
+            <div class="project-grid">
+
+                <div class="project-card">
+                    <h3>CUSTOMER SEGMENTATION & CHURN PREDICTION WITH RECOMMENDATION AND RETENTION ANALYSIS</h3>
+                    <div class="panel">
+                        <div class="project-section">
+                            <h4>KEY IDEA</h4>
+                            <p>
+                            <p style="color: orange;">Many Beginner data scientist/analysis face problems and issues
+                                while building a
+                                production level churn
+                                system
+                                Here's a easy to understand and use static customer segmentation churn predicting with
+                                recommendation
+                                and retention analysis
+                                project which provides easy to understand and usable stuffs to integrate to it their own
+                                systems.</p>
+                            </p>
+                        </div>
+
+                        <div class="project-section">
+                            <h4>SOFTWARE TOOLS USED</h4>
+                            <p><code>Python</code> · <code>Pandas</code> · <code>Scikit-learn</code> · <code>SQL</code>
+                                ·
+                                <code>Jupyter Notebook</code> · <code>Random Forest Classifier</code> ·
+                                <code>KMeans Clustering</code> · <code>markdown</code></code> · <code>Matplotlib</code>
+                                </code> · <code>Seaborn</code>
+                            </p>
+                        </div>
+
+                        <div class="project-section">
+                            <h4>APPROACH</h4>
+                            <p>
+                            <ul>
+                                <li>1. Started by exploring the dataset nicely understanding the patterns,anomalies.
+                                </li>
+                                <li>2. Completed Exploratory Data Analysis.</li>
+                                <li>3. Cleaned the dataset.</li>
+                                <li>4. Split the data into train and test sets.</li>
+                                <li>5. Trained RandomForestClassifier on the dataset for churn prediction and saved the
+                                    model.pkl file for future reference.</li>
+                                <li>6. Trained K-Means Clustering on the dataset for customer segmentation to 4 clusters
+                                    based on top features.</li>
+                                <li>7. Feature Engineered on the outcomes and added new features to the existing data to
+                                    predict churn based on all the relevant features.</li>
+                                <li>8. Made a .md file for a nice technical report.</li>
+                                <li>9. converted it to a .pdf file for easy view and saved to the disk automatically.
+                                </li>
+                            </ul>
+                            </p>
+                        </div>
+
+                        <div class="project-section">
+                            <h4>TECHINICAL DETAILS</h4>
+                            <p>
+                            <ul>
+                                <li>
+                                    I have used <a href="https://huggingface.co/datasets/d0r1h/customer_churn">Hugging
+                                        Face
+                                        Dataset</a> for my project</li>
+                                <li>Explored the dataset, by understanding rows, column ,its datatypes , nuerical
+                                    columns , categorical columns , size , shape of the data</li>
+                                <li>Cleaned it , removed duplicates, handled null spaces with median() for numerical
+                                    , mode() for categorical columns and texts for special characters like '?','-'.Fixed
+                                    the datatypes like datetime for date column,Handled outliers</li>
+                                <li>Split the data into training and testing set with test size 40% and training size
+                                    60%</li>
+                                <li>Standardised the data by using StandardScaler()</li>
+                                <li>Trained Random Forest Classifier on the data by 200 estimators and KMeans on 4
+                                    cluster
+                                </li>
+                                <li>Performance Metrics</li>
+                                <ul>
+                                    <li>Accuracy : 0.93</li>
+                                    <li>Precision : 0.938</li>
+                                    <li>Precision (Stayed) : 0.93</li>
+                                    <li>Precision (Churned) : 0.94</li>
+                                    <li>Recall (Churned) : 0.94</li>
+                                </ul>
+                                <li>Saved this whole model as churn_prediction_pipeline.pkl file</li>
+                                <li>Used tool calling feature to an AI model (gemini-3.5-flash-lite) through the saved
+                                    model details
+                                    for accurate prediction and analysis with recommendation by simple easy questions
+                                    from the users
+                                </li>
+                                <li>Saved the whole output to a .md file which gets saved to a .pdf file for easy access
+                                </li>
+                            </ul>
+
+
+                            </p>
+                        </div>
+
+                        <div class="project-section">
+                            <h4>MY LEARNINGS</h4>
+                            <p><em>
+                                    <ul>
+                                        <li> How to segmentize customers based on top useful features.</li>
+                                        <li> How to split the data to training and testing set</li>
+                                        <li> How to train RandomForest Classifier and KMeans Clustering ML algorithms
+                                        </li>
+                                        <li>How to use tool calling i.e. function calling through an AI model</li>
+                                        <li> How to automate pdf generation from md files</li>
+                                        <li>How to call and use an AI model via API Calls</li>
+                                    </ul>
+                                </em></p>
+                        </div>
+
+                        <div class="project-section links-section">
+                            <h4>CODE/LINK</h4>
+                            <div class="links">
+                                🔗 <a
+                                    href="https://github.com/FixerSoup/Customer-Segmentation-Churn-Prediction-Retention-Recommendation-Analysis">GitHub
+                                    Repo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>VISUAL PRODUCT SEARCH ENGINE</h3>
+                    <div class="panel">
+                        <div class="project-section">
+                            <h4>KEY IDEA</h4>
+                            <p>
+                            <p style="color: orange;">Frustrated by text-based search limitations in fashion clothes
+                                searches, I developed a
+                                computer
+                                vision-powered
+                                product search system that allows users to find similar items using images as well as
+                                texts.This
+                                project tackles the "I know it when I see it" problem—when customers can describe what
+                                they want
+                                visually but struggle to articulate it in text queries.</p>
+                            </p>
+                        </div>
+
+
+                        <div class="project-section">
+                            <h4>SOFTWARE TOOLS USED</h4>
+                            <p><code>Python</code> · <code>google-genai</code> · <code>streamlit</code> ·
+                                <code>fastAPI</code>
+                                ·
+                                <code>Uvicorn</code> · <code>CLIP model</code> · <code>Docker</code> ·
+                                <code>Qdrant(Vector Database)</code>
+                            </p>
+                        </div>
+
+                        <div class="project-section">
+                            <h4>APPROACH</h4>
+                            <p>
+                            <ul>
+
+
+                                <li>1. I used
+                                    <a href='https://huggingface.co/datasets/zalando-datasets/fashion_mnist'>hugging_face_fashion_mnist_data
+                                    </a>.
+                                </li>
+                                <li>2. Used Open AI's CLIP Model to embed those image data into vectors with
+                                    512-Dimensions
+                                    and stored in a
+                                    vector database (Qdrant)</li>
+                                <li>3. Finished creating a user level deployed website using streamlit for frontend,
+                                    uvicorn for backend and FastAPI for web frameworks</li>
+                                <li>4. Now,Whenever a user inputs a image or a text ,first its vector embedding is
+                                    generated via CLIP model and then semantic searching is performed in the database
+                                    with the 10 most
+                                    similar images which have very little difference </li>
+                                <li>5. I shipped all the dependencies inside a docker file and made it easy for users to
+                                    install and use it via docker</li>
+                            </ul>
+                            </p>
+                        </div>
+
+                        <div class="project-section">
+                            <h4>TECHNICAL DETAILS</h4>
+                            <p>
+                            <ul>
+                                <li>I cloned the data from the source using load_dataset</li>
+                                <li>Created a client connection to the Qdrant database and a collection(folder) in it
+                                    named as 'Products'
+                                </li>
+                                <li>Encode each data i.e. generated vector embeddings and pushed those embeddings to the
+                                    database</li>
+                                <li>For encoding I have used Open AI's CLIP Model(clip-vit-base-patch32), with vector
+                                    size = 512</li>
+                                <li>I used user defined methods to embed images and texts separately for easy embedding
+                                </li>
+                                <li>After storing each vector the database smartly creates a network of points.</li>
+                                <li>Created a streamlit deployed frontend for simplest and easiest usage of the project
+                                </li>
+                                <li>I have containerized all the dependencies and requirements to a single docker
+                                    compose to make shipping and installation easy and fast</li>
+                            </ul>
+                            </p>
+                        </div>
+
+                        <div class="project-section">
+                            <h4>MY LEARNINGS</h4>
+                            <p><em>
+                                    <ul>
+                                        <li>How to deploy projects via Streamlit</li>
+                                        <li>Use Docker for containerization and shipping with all the dependencies
+                                            involved</li>
+                                        <li>Work with uvicorn web Server and fastAPI frameworks</li>
+                                        <li>How vector databases work based on semantic searching and mapping</li>
+                                        <li>How to create vector embeddings from Open AI's CLIP model</li>
+                                    </ul>
+                                </em></p>
+                        </div>
+
+                        <div class="project-section links-section">
+                            <h4>CODE/LINK</h4>
+                            <div class="links">
+                                🔗 <a href="https://github.com/FixerSoup/Visual_Product_Search_Engine">GitHub Repo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>CHART ANALYSIS CHURN BASED REPORT GENERATOR</h3>
+                    <div class="panel">
+                        <div class="project-section">
+                            <h4>KEY IDEA</h4>
+                            <p>
+                            <p style="color: orange;">Here's a nice churn report generator based on charts and
+                                visualizations.
+                                Used Gemini AI model(gemini-3.5-flash-lite) to generate reports which are easy to
+                                understand and business
+                                oriented.</p>
+                            </p>
+                        </div>
+
+                        <div class="project-section">
+                            <h4>SOFTWARE TOOLS USED</h4>
+                            <p><code>Python</code> · <code>google.generativeai</code> · <code>Pandas</code> ·
+                                <code>markdown_pdf</code> · <code>Matplotlib</code> · <code>Seaborn</code>
+                            </p>
+                        </div>
+
+                        <div class="project-section">
+                            <h4>APPROACH</h4>
+                            <p>
+                            <ul>
+                                <li>1. Used Customer churn xlsx data file to start which analyzing the data </li>
+                                <li>2. Cleaned it and saved the cleaned data</li>
+                                <li>3. Used matplotlib and seaborn to generate charts based on churn per features
+                                    individually and saved each one for future use</li>
+                                <li>4. Used Gemini AI(gemini-3.5-flash-lite) to create report in .md file format by
+                                    using the charts generated from above</li>
+                                <li>5. Converted the .md file to .pdf file and saved to the disk</li>
+                            </ul>
+
+                            </p>
+                        </div>
+
+                        <div class="project-section">
+                            <h4>TECHNICAL DETAILS</h4>
+                            <p>
+                            <ul>
+                                <li>Cleaned the data by removing duplicates , cleaning text columns, fixing data
+                                    types, handled nulls by
+                                    median() and mode(),handled outliers
+                                </li>
+                                <li>
+                                    <p style="color: cyan;">Encode Image as AI APIs accept images over HTTP need
+                                        the raw image
+                                        bytes converted into a text-safe format that can be embedded inside
+                                        a JSON request body</p>
+                                </li>
+                                <li>Used Gemini Model [gemini-3.5-flash-lite] API by using Gemini API Keys </li>
+                                <li>Saved all the charts lke histograms, bar plots, density plots, box plots, heatmap
+                                    generated
+                                </li>
+                                <li>
+                                    Ingested the charts generated as a input to the AI model and generated reports in
+                                    ".md"
+                                    files.
+                                    Later converted to ".pdf" using markdown_pdf
+                                </li>
+                                <li>
+                                    <p style="color: cyan;"> Added Claude.md file for users to work with this project
+                                        using Claude code easily
+                                        and effectively </p>
+                                </li>
+                            </ul>
+                            </p>
+                        </div>
+
+                        <div class="project-section">
+                            <h4>MY LEARNINGS</h4>
+                            <p><em>
+                                    <ul>
+                                        <li>Learned how to access files/folders via os and python codes</li>
+                                        <li>To use gemini API keys</li>
+                                        <li>Automate the cleaning part and chart generation based on churn</li>
+                                        <li>Use AI models to generate reports by using customized prompt template
+                                        </li>
+                                        <li>Save reports to pdf files using python libraries</li>
+                                    </ul>
+                                </em></p>
+                        </div>
+
+                        <div class="project-section links-section">
+                            <h4>CODE/LINK</h4>
+                            <div class="links">
+                                🔗 <a href="https://github.com/FixerSoup/Chart-Analysis-Churn-Based-Report">GitHub
+                                    Repo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <!-- ============ CERTIFICATE SECTION ============ -->
+        <section id="certifications">
+            <div class="section-head"><span class="icon">📜</span>
+                <h2>CERTIFICATIONS</h2>
+            </div>
+            <div class="panel">
+                <ul>
+                    <li><span>Claude 101</span><br><span class="issuer"><span>Issued By : Anthropic</span>
+                            <ul> <span><a href='https://verify.skilljar.com/c/j59tnzqfd7mv'>---------> Visit Link
+                                    </a></span>
+                            </ul>
+                    </li>
+
+                    <li><span>Claude Code 101</span><br><span class="issuer"><span>Issued By : Anthropic</span>
+                            <ul> <span><a href='https://verify.skilljar.com/c/b3uobnkw3c27'>---------> Visit Link
+                                    </a></span>
+                            </ul>
+                    </li>
+                    <li><span>Data Science Bootcamp</span><br><span class="issuer"><span>Issued By : Udemy</span>
+                            <ul> <span><a
+                                        href='https://drive.google.com/file/d/15N0jJJ9rnTbcNKMWmCqgF48G2-g5-WA3/view'>--------->
+                                        Visit
+                                        Link
+                                    </a></span>
+                            </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============ GITHUB STATS ============ -->
+        <section id="stats">
+            <div class="section-head"><span class="icon">📈</span>
+                <h2>GITHUB STATS</h2>
+            </div>
+            <div class="stats-wrap">
+                <img alt="GitHub stats"
+                    src="https://github-readme-stats-ten-omega-56.vercel.app/api?username=FixerSoup&show_icons=true&hide_rank=true&theme=tokyonight&hide_border=true&bg_color=0a0f22"
+                    alt="GitHub stats">
+                <img alt="Top languages"
+                    src="https://github-readme-stats-ten-omega-56.vercel.app/api/top-langs/?username=FixerSoup&layout=compact&theme=tokyonight&hide_border=true&bg_color=0a0f22">
+            </div>
+        </section>
+
+        <!-- ============ CONTACT ============ -->
+        <section class="contact" id="contact">
+            <div class="section-head" style="justify-content:center; border-bottom:none;"><span class="icon">📬</span>
+                <h2>LET'S CONNECT</h2>
+            </div>
+            <p>I'm actively looking for <strong>Data Scientist / AI Engineer</strong> internship and entry-level
+                roles where I can apply my skills and also learn new stuffs.
+                If
+                you're working on something interesting in data or AI, or just want to talk shop about the
+                bias-variance
+                tradeoff — reach out.</p>
+            <div class="contact-links">
+                <a
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=youremail@gmail.com&su=Subject%20Here&body=Hello%2C%0A%0AThis%20is%20the%20message.">📧
+                    <span class="ph">soup28mitr@gmail.com</span></a>
+                <a href="https://www.linkedin.com/in/souptikmitra/">💼 LinkedIn</a>
+                <a href="https://github.com/FixerSoup">💻 GitHub</a>
+            </div>
+            <div class="updated">Last updated: <span class="ph">August 2026</span></div>
+        </section>
+
+    </div>
+
+    <script>
+        function initAgentPortfolio() {
+            // ----------------------------------------------------------------
+            // LINES — the full greeting script, spoken & typed in order once.
+            // ----------------------------------------------------------------
+            const lines = [
+                [
+                    { t: "A warm welcome to " },
+                    { t: "Souptik's", ph: true },
+                    { t: " portfolio. I'm his AI assistant, " },
+                    { t: "JET,", ph: true },
+                    { t: " \u2014 I'm here to introduce you to his portfolio" }
+                ],
+                [
+                    { t: "He is an " },
+                    { t: "aspiring data scientist with a deep obsession for AI engineering and Machine learning skills .", ph: true },
+                    { t: " He understands the problem ,solves it in a structured manner and creates nice documentation for reference " }
+                ],
+                [
+                    { t: "Core stack: " },
+                    { t: "Python", ph: true }, { t: ", " },
+                    { t: "SQL", ph: true }, { t: ", " },
+                    { t: "Jupyter Notebook", ph: true }, { t: ", " },
+                    { t: "Docker", ph: true }, { t: ", " },
+                    { t: "n8n automation", ph: true }, { t: ", " },
+                    { t: "VS Code", ph: true }, { t: ", " },
+                    { t: "Claude/ Claude Code CLI", ph: true }, { t: ", " },
+                    { t: "Machine Learning", ph: true }, { t: "." }
+                ],
+                [
+                    { t: "Projects Build by him : " },
+                    { t: "Customer Segmentation Churn Prediction Recommendation with Retention Analysis,", ph: true },
+                    { t: " a Visual Product Search Engine ,", ph: true },
+                    { t: " Chart Analysis [Churn Based] Report Generator ,", ph: true },
+                    { t: " \u2014 worth a look, scroll Down and explore!" }
+                ],
+                [
+                    { t: "Curious? Reach out at " },
+                    { t: "soup28mitr@gmail.com", ph: true },
+                    { t: " or " },
+                    { t: "github.com/FixerSoup", ph: true },
+                    { t: "." }
+                ]
+            ];
+
+            const target = document.getElementById('ap-typed-text');
+            const mouth = document.getElementById('ap-mouth-bars');
+            const bars = mouth ? mouth.querySelectorAll('.ap-bar') : [];
+            const agentWrap = document.getElementById('ap-agent-wrap');
+            const voiceBtn = document.getElementById('ap-voice-btn');
+
+            if (!target) {
+                console.error('[agent-portfolio] #ap-typed-text not found.');
+                return;
+            }
+
+            const TYPE_MS = 52;  // ms per character while typing
+            const ERASE_MS = 20;  // ms per character while erasing
+            const PAUSE_MS = 900; // pause between lines
+
+            // ----------------------------------------------------------------
+            // VOICE — Web Speech API
+            // ----------------------------------------------------------------
+            let cachedVoices = [];
+            function refreshVoices() {
+                if ('speechSynthesis' in window) cachedVoices = window.speechSynthesis.getVoices();
+            }
+            if ('speechSynthesis' in window) {
+                refreshVoices();
+                window.speechSynthesis.onvoiceschanged = refreshVoices;
+            }
+
+            // Resolved voice is picked once and cached for the whole session
+            // so the agent doesn't sound different from one line to the next
+            // (mobile browsers sometimes populate the voice list gradually,
+            // which used to make pickVoice() return a different match line
+            // to line). Note: the *identity* of the voice will still differ
+            // PC vs. mobile — Windows/Chrome ships Microsoft voices, Android
+            // ships Google TTS voices, iOS ships Apple voices — the Web
+            // Speech API has no way to force literally the same synthetic
+            // voice across different operating systems. This just makes the
+            // best available pick consistent and deterministic per device.
+            let resolvedVoice = null;
+            let resolvedFromCount = -1;
+
+            function pickVoice() {
+                const malePattern = /\b(male)\b|david|mark|daniel|guy|fred|alex(?!a)|george|arthur|oliver|ryan|thomas|james|liam|aaron|rishi|eddy|reed|gordon|neerja|prabhat/i;
+                const femalePattern = /\b(female)\b|zira|samantha|susan|karen|victoria|moira|tessa|fiona|kate|serena|allison|ava|joanna|salli|ivy|kendra|kimberly|amy|emma|zoe|nicky|heera/i;
+                const pool = (cachedVoices.filter(v => /^en/i.test(v.lang)).length
+                    ? cachedVoices.filter(v => /^en/i.test(v.lang))
+                    : cachedVoices);
+                return (
+                    pool.find(v => malePattern.test(v.name) && !femalePattern.test(v.name)) ||
+                    pool.find(v => v.localService && !femalePattern.test(v.name)) ||
+                    pool.find(v => !femalePattern.test(v.name)) ||
+                    pool[0] || null
+                );
+            }
+
+            function resolveVoice() {
+                // Recompute only if we don't have a pick yet, or the voice
+                // list has grown since our last pick (mobile browsers often
+                // report 0 voices at first, then populate the real list a
+                // beat later via onvoiceschanged) — once locked in with a
+                // non-empty list, keep using the same voice all session.
+                if (resolvedVoice && cachedVoices.length === resolvedFromCount) return resolvedVoice;
+                const v = pickVoice();
+                if (v) {
+                    resolvedVoice = v;
+                    resolvedFromCount = cachedVoices.length;
+                }
+                return resolvedVoice;
+            }
+
+            // Mobile Chrome/Samsung Internet/WebView frequently drop the very
+            // FIRST speechSynthesis.speak() call of a page session with no
+            // error at all — it's a known engine "cold start" bug. Every
+            // call after that works normally. We work around it by firing a
+            // silent, near-instant "primer" utterance the moment the visitor
+            // taps, which warms up the engine so the first real line (the
+            // greeting) is never the one that gets eaten.
+            let speechPrimed = false;
+            function primeSpeechEngine() {
+                if (!('speechSynthesis' in window) || speechPrimed) return;
+                speechPrimed = true;
+                try {
+                    refreshVoices();
+                    const primer = new SpeechSynthesisUtterance(' ');
+                    primer.volume = 0;
+                    primer.rate = 10;
+                    window.speechSynthesis.speak(primer);
+                    window.speechSynthesis.cancel();
+                } catch (e) { /* ignore */ }
+            }
+
+            function speakText(rawText, onend) {
+                const clean = rawText.replace(/#/g, '').replace(/\s+/g, ' ').trim();
+                if (!('speechSynthesis' in window) || !clean) { if (onend) onend(); return; }
+
+                const utter = new SpeechSynthesisUtterance(clean);
+                utter.rate = 0.93;
+                utter.pitch = 0.72;
+                utter.volume = 1;
+                const v = resolveVoice();
+                if (v) utter.voice = v;
+
+                let finished = false;
+                utter.onend = () => { finished = true; if (onend) onend(); };
+                utter.onerror = () => { finished = true; if (onend) onend(); };
+
+                if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+                    window.speechSynthesis.cancel();
+                }
+                window.speechSynthesis.speak(utter);
+
+                // Same "cold start" mobile bug can still occasionally eat a
+                // speak() call even after priming. If nothing started playing
+                // shortly after we asked it to, retry once — cheap insurance
+                // that costs nothing when the first attempt worked fine.
+                setTimeout(() => {
+                    if (!finished && !window.speechSynthesis.speaking && !window.speechSynthesis.pending) {
+                        window.speechSynthesis.speak(utter);
+                    }
+                }, 250);
+            }
+
+            // ----------------------------------------------------------------
+            // MOUTH BARS — animate while speaking
+            // ----------------------------------------------------------------
+            const barTimers = [];
+            function setTalking(on) {
+                bars.forEach((bar, i) => {
+                    if (on) {
+                        barTimers[i] = setInterval(() => {
+                            const h = 3 + Math.random() * 9;
+                            bar.setAttribute('height', h.toFixed(1));
+                            bar.setAttribute('y', ((10 - h) / 2).toFixed(1));
+                        }, 110 + i * 10);
+                    } else {
+                        clearInterval(barTimers[i]);
+                        bar.setAttribute('height', 4);
+                        bar.setAttribute('y', 6);
+                    }
+                });
+            }
+
+            // ----------------------------------------------------------------
+            // TYPEWRITER helpers
+            // ----------------------------------------------------------------
+            function typeLine(segments, cb) {
+                setTalking(true);
+                target.innerHTML = '';
+                let segI = 0, charI = 0, currentSpan = null;
+                function step() {
+                    if (segI >= segments.length) { setTalking(false); cb(); return; }
+                    const seg = segments[segI];
+                    if (charI === 0) {
+                        currentSpan = document.createElement('span');
+                        if (seg.ph) currentSpan.className = 'ap-ph';
+                        target.appendChild(currentSpan);
+                    }
+                    currentSpan.textContent += seg.t[charI++];
+                    if (charI >= seg.t.length) { segI++; charI = 0; }
+                    setTimeout(step, TYPE_MS);
+                }
+                step();
+            }
+
+            function eraseLine(cb) {
+                let remaining = target.textContent.length;
+                function step() {
+                    if (remaining <= 0) { target.innerHTML = ''; cb(); return; }
+                    const spans = target.querySelectorAll('span');
+                    const last = spans[spans.length - 1];
+                    if (last) {
+                        last.textContent = last.textContent.slice(0, -1);
+                        if (!last.textContent) last.remove();
+                    }
+                    remaining--;
+                    setTimeout(step, ERASE_MS);
+                }
+                step();
+            }
+
+            // ----------------------------------------------------------------
+            // GREETING GESTURE
+            // ----------------------------------------------------------------
+            function playGreetingGesture() {
+                if (!agentWrap) return;
+                agentWrap.classList.remove('ap-greeting');
+                void agentWrap.offsetWidth;
+                agentWrap.classList.add('ap-greeting');
+                setTimeout(() => agentWrap.classList.remove('ap-greeting'), 2900);
+            }
+
+            // ----------------------------------------------------------------
+            // BLINKING EYES
+            // ----------------------------------------------------------------
+            function startBlinking() {
+                const eyes = [document.getElementById('ap-eye-left'), document.getElementById('ap-eye-right')]
+                    .filter(Boolean);
+                if (!eyes.length) return;
+                function blinkOnce() {
+                    eyes.forEach(e => e.classList.add('ap-blink'));
+                    setTimeout(() => eyes.forEach(e => e.classList.remove('ap-blink')), 110);
+                    setTimeout(blinkOnce, 2500 + Math.random() * 3200);
+                }
+                setTimeout(blinkOnce, 1500 + Math.random() * 1800);
+            }
+
+            // ----------------------------------------------------------------
+            // PLAY GREETING — runs through ALL lines sequentially, once.
+            // Each line is typed while the voice speaks it; when both finish
+            // (plus a short pause) the line is erased and the next begins.
+            // After the last line the bubble is left showing the final text.
+            // ----------------------------------------------------------------
+            let greetingRunning = false;
+
+            function playAllLines(startIdx, onComplete) {
+                if (startIdx >= lines.length) {
+                    // All lines done — leave last line visible; stop talking mouth
+                    setTalking(false);
+                    if (onComplete) onComplete();
+                    return;
+                }
+
+                const segs = lines[startIdx];
+                const rawText = segs.map(s => s.t).join('');
+                const isLast = (startIdx === lines.length - 1);
+
+                let typeDone = false, speechDone = false;
+
+                function maybeNext() {
+                    if (!typeDone || !speechDone) return;
+                    if (isLast) {
+                        // Leave last line in place
+                        setTalking(false);
+                        setTimeout(() => { if (onComplete) onComplete(); }, PAUSE_MS);
+                    } else {
+                        setTimeout(() => {
+                            eraseLine(() => playAllLines(startIdx + 1, onComplete));
+                        }, PAUSE_MS);
+                    }
+                }
+
+                speakText(rawText, () => { speechDone = true; maybeNext(); });
+                typeLine(segs, () => { typeDone = true; maybeNext(); });
+            }
+
+            function startGreeting() {
+                if (greetingRunning) return;
+                greetingRunning = true;
+                window.speechSynthesis && window.speechSynthesis.cancel();
+                target.innerHTML = '';
+                playGreetingGesture();
+                playAllLines(0, () => { greetingRunning = false; });
+            }
+
+            // ----------------------------------------------------------------
+            // REPLAY button — replays the whole greeting once per click
+            // ----------------------------------------------------------------
+            if (voiceBtn) {
+                voiceBtn.addEventListener('click', () => {
+                    primeSpeechEngine();
+                    try { sessionStorage.setItem('ap_greeted_v1', '1'); } catch (e) { /* ignore */ }
+                    if (!greetingRunning) startGreeting();
+                });
+            }
+
+            // ----------------------------------------------------------------
+            // FIRST VISIT — auto-play exactly once, strictly on the very
+            // first genuine user gesture (tap / click / key press) anywhere
+            // on the page. Browsers (Safari and Chrome on mobile especially)
+            // silently block ANY audio — including speechSynthesis — that
+            // isn't triggered directly inside a real user gesture. Calling
+            // startGreeting() ahead of time with no gesture (e.g. on a
+            // setTimeout) does NOT work: the typewriter still visibly plays,
+            // but the audio is dropped with no error, which is what made it
+            // look like the agent "sometimes" speaks. So we don't attempt
+            // that anymore — we wait for the first real interaction and
+            // start speech synchronously inside that event, which browsers
+            // do allow. After it fires once, everything else is manual via
+            // "Replay Greeting".
+            // ----------------------------------------------------------------
+            const VISITED_KEY = 'ap_greeted_v1';
+
+            function hasGreetedThisSession() {
+                try { return sessionStorage.getItem(VISITED_KEY) === '1'; }
+                catch (e) { return false; }
+            }
+
+            function markGreetedThisSession() {
+                try { sessionStorage.setItem(VISITED_KEY, '1'); } catch (e) { /* ignore */ }
+            }
+
+            function onFirstInteraction() {
+                hideWakeHint();
+                primeSpeechEngine();
+                if (hasGreetedThisSession() || greetingRunning) return;
+                markGreetedThisSession();
+                startGreeting();
+            }
+
+            // ----------------------------------------------------------------
+            // WAKE HINT — a small pulsing pill ("Tap anywhere to wake me up...")
+            // shown only on a visitor's very first visit, so they know a tap
+            // is what boots up the talking agent. Cycles through a couple of
+            // playful lines, then fades away the instant the visitor interacts.
+            // ----------------------------------------------------------------
+            const wakeHintEl = document.getElementById('ap-wake-hint');
+            const wakeHintTextEl = document.getElementById('ap-wake-hint-text');
+            const wakeHintLines = [
+                '✨ Tap anywhere to wake me up...',
+                '🧠 One tap and I\'ll start talking',
+                '👆 Go on, tap the screen once'
+            ];
+            let wakeHintTimer = null;
+
+            function showWakeHint() {
+                if (!wakeHintEl) return;
+                wakeHintEl.classList.add('ap-wake-visible');
+                let i = 0;
+                wakeHintTimer = setInterval(() => {
+                    i = (i + 1) % wakeHintLines.length;
+                    if (wakeHintTextEl) wakeHintTextEl.textContent = wakeHintLines[i];
+                }, 2600);
+            }
+
+            function hideWakeHint() {
+                if (!wakeHintEl) return;
+                if (wakeHintTimer) { clearInterval(wakeHintTimer); wakeHintTimer = null; }
+                wakeHintEl.classList.add('ap-wake-hide');
+                wakeHintEl.classList.remove('ap-wake-visible');
+            }
+
+            if (!hasGreetedThisSession()) {
+                ['pointerdown', 'pointerup', 'click', 'touchstart', 'touchend', 'keydown'].forEach(evt =>
+                    document.addEventListener(evt, onFirstInteraction, { once: true, passive: true })
+                );
+                showWakeHint();
+            }
+
+            startBlinking();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAgentPortfolio);
+        } else {
+            initAgentPortfolio();
+        }
+    </script>
+
+</body>
+
+</html>
