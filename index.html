@@ -60,19 +60,21 @@
             align-items: center;
             justify-content: center;
             padding: 40px 20px;
+            perspective: 1400px;
         }
 
         /* ---------- floating neural-network backdrop ---------- */
         #ap-agent-hero .ap-net-bg {
             position: absolute;
             inset: 0;
+            z-index: 0;
             width: 100%;
             height: 100%;
             opacity: 0.5;
         }
 
         .ap-net-node {
-            animation: netPulse 4s ease-in-out infinite;
+            /* static — no pulsing */
         }
 
         .ap-net-line {
@@ -94,7 +96,10 @@
             }
         }
 
-        /* ---------- layout ---------- */
+        /* ---------- layout ----------
+           Text stays perfectly still — no tilt/rotate/scale/hue tied to
+           the mouse. Only the canvas particle field + cursor rings (see
+           below) react to pointer movement now. */
         .ap-stage {
             position: relative;
             z-index: 2;
@@ -135,6 +140,35 @@
             white-space: nowrap;
         }
 
+        /* ---------- shimmering "shine sweep" on the hero name ----------
+           A diagonal highlight periodically slides across the name pill,
+           like light catching glass — a subtle but unmistakably "alive"
+           signature touch that a plain static badge doesn't have. */
+        .ap-shimmer-name {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .ap-shimmer-name::after {
+            /* shine sweep removed — name stays static */
+            content: none;
+        }
+
+        @keyframes apShine {
+            0% {
+                left: -60%;
+            }
+
+            35% {
+                left: 130%;
+            }
+
+            100% {
+                left: 130%;
+            }
+        }
+
         /* ---------- agent + speech row ---------- */
         .ap-agent-row {
             display: flex;
@@ -150,7 +184,174 @@
             width: 260px;
             height: 300px;
             flex-shrink: 0;
-            animation: floatY 4.5s ease-in-out infinite;
+        }
+
+        /* ---------- rotating gradient aura ring behind the agent ---------- */
+        .ap-aura-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            margin: -150px 0 0 -150px;
+            border-radius: 50%;
+            z-index: -1;
+            background: conic-gradient(from 0deg,
+                    transparent 0deg,
+                    rgba(59, 130, 246, 0.55) 60deg,
+                    transparent 130deg,
+                    rgba(34, 211, 238, 0.55) 210deg,
+                    transparent 280deg,
+                    rgba(139, 92, 246, 0.55) 340deg,
+                    transparent 360deg);
+            filter: blur(14px);
+            opacity: 0.7;
+        }
+
+        /* ---------- orbiting particles around the agent ---------- */
+        .ap-orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 1px;
+            height: 1px;
+            pointer-events: none;
+        }
+
+        .ap-orbit-dot {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            box-shadow: 0 0 8px currentColor, 0 0 16px currentColor;
+        }
+
+        /* static positions — no orbiting */
+        .ap-orbit-1 {
+            transform: rotate(35deg) translateX(118px) rotate(-35deg);
+        }
+
+        .ap-orbit-2 {
+            transform: rotate(165deg) translateX(96px) rotate(-165deg);
+        }
+
+        .ap-orbit-3 {
+            transform: rotate(260deg) translateX(140px) rotate(-260deg);
+        }
+
+        .ap-orbit-1 .ap-orbit-dot {
+            width: 6px;
+            height: 6px;
+            margin: -3px 0 0 -3px;
+            color: var(--accent-cyan);
+            background: var(--accent-cyan);
+        }
+
+        .ap-orbit-2 .ap-orbit-dot {
+            width: 5px;
+            height: 5px;
+            margin: -2.5px 0 0 -2.5px;
+            color: var(--accent-blue-light);
+            background: var(--accent-blue-light);
+        }
+
+        .ap-orbit-3 .ap-orbit-dot {
+            width: 4px;
+            height: 4px;
+            margin: -2px 0 0 -2px;
+            color: var(--accent-violet);
+            background: var(--accent-violet);
+        }
+
+        @keyframes apOrbit1 {
+            from {
+                transform: rotate(0deg) translateX(118px) rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg) translateX(118px) rotate(-360deg);
+            }
+        }
+
+        @keyframes apOrbit2 {
+            from {
+                transform: rotate(0deg) translateX(96px) rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg) translateX(96px) rotate(-360deg);
+            }
+        }
+
+        @keyframes apOrbit3 {
+            from {
+                transform: rotate(0deg) translateX(140px) rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg) translateX(140px) rotate(-360deg);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .ap-aura-ring,
+            .ap-orbit-1,
+            .ap-orbit-2,
+            .ap-orbit-3,
+            .ap-shimmer-name::after {
+                animation: none;
+            }
+
+            .ap-stage {
+                transform: none !important;
+                transition: none;
+            }
+        }
+
+        /* ---------- "excited" reaction — fired live on "!" while speaking ---------- */
+        .ap-agent-wrap.ap-excited {
+            animation: floatY 4.5s ease-in-out infinite, apExcitedPunch .5s ease-out 1;
+        }
+
+        @keyframes apExcitedPunch {
+            0% {
+                filter: drop-shadow(0 0 0 rgba(34, 211, 238, 0));
+            }
+
+            30% {
+                transform: scale(1.06);
+                filter: drop-shadow(0 0 22px rgba(34, 211, 238, 0.65));
+            }
+
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 0 rgba(34, 211, 238, 0));
+            }
+        }
+
+        .ap-spark {
+            position: absolute;
+            font-size: 18px;
+            pointer-events: none;
+            z-index: 5;
+            animation: apSparkPop 900ms ease-out forwards;
+        }
+
+        @keyframes apSparkPop {
+            0% {
+                opacity: 0;
+                transform: translate(0, 0) scale(0.4) rotate(0deg);
+            }
+
+            15% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--sx-end, 20px), -46px) scale(1.15) rotate(30deg);
+            }
         }
 
         @keyframes floatY {
@@ -299,10 +500,7 @@
             letter-spacing: .01em;
             white-space: nowrap;
             box-shadow: 0 0 0 0 rgba(59, 130, 246, .5);
-            animation: apWakePulse 2.1s ease-in-out infinite, apWakeFloat 2.6s ease-in-out infinite;
             opacity: 0;
-            animation-fill-mode: forwards;
-            animation-delay: .4s, .4s;
             pointer-events: none;
             transition: opacity .5s ease, transform .5s ease;
         }
@@ -539,13 +737,130 @@
         body {
             margin: 0;
             padding: 0;
-            background:
-                radial-gradient(ellipse 900px 500px at 15% 0%, rgba(59, 130, 246, 0.10), transparent 60%),
-                radial-gradient(ellipse 900px 500px at 85% 15%, rgba(139, 92, 246, 0.08), transparent 60%),
-                var(--bg-deep);
+            background: var(--bg-deep);
             color: var(--text-main);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ============================================================
+           GLOBAL LIVE BACKGROUND (canvas particle network + glyph rain)
+           ============================================================ */
+        #gbg-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            display: block;
+        }
+
+        /* soft roaming color blobs that drift slowly beneath the particles,
+           giving the flat navy backdrop some living depth without ever
+           competing with foreground text for attention */
+        #gbg-glow {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        #gbg-glow::before,
+        #gbg-glow::after {
+            content: '';
+            position: absolute;
+            width: 46vw;
+            height: 46vw;
+            max-width: 620px;
+            max-height: 620px;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.28;
+            will-change: transform;
+        }
+
+        #gbg-glow::before {
+            top: -10%;
+            left: -8%;
+            background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%);
+            animation: gbgDrift1 26s ease-in-out infinite;
+        }
+
+        #gbg-glow::after {
+            bottom: -12%;
+            right: -8%;
+            background: radial-gradient(circle, var(--accent-violet) 0%, transparent 70%);
+            animation: gbgDrift2 32s ease-in-out infinite;
+        }
+
+        @keyframes gbgDrift1 {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(12vw, 8vh) scale(1.15);
+            }
+
+            66% {
+                transform: translate(4vw, 16vh) scale(0.9);
+            }
+        }
+
+        @keyframes gbgDrift2 {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(-10vw, -10vh) scale(1.2);
+            }
+
+            66% {
+                transform: translate(-4vw, -18vh) scale(0.95);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            #gbg-glow::before,
+            #gbg-glow::after {
+                animation: none;
+            }
+        }
+
+        /* everything else must sit above the fixed background layer */
+        #ap-agent-hero,
+        .page {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ---------- scroll-reveal for sections ---------- */
+        .gbg-reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .7s cubic-bezier(.2, .7, .3, 1), transform .7s cubic-bezier(.2, .7, .3, 1);
+        }
+
+        .gbg-reveal.gbg-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .gbg-reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
         }
 
         a {
@@ -853,12 +1168,13 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            transition: transform .25s ease, border-color .25s ease;
+            transition: transform .3s cubic-bezier(.2, .7, .3, 1), border-color .3s ease, box-shadow .3s ease;
         }
 
         .project-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px) scale(1.012);
             border-color: var(--accent-blue);
+            box-shadow: 0 14px 40px -12px rgba(59, 130, 246, 0.35), 0 0 0 1px rgba(96, 165, 250, 0.15);
         }
 
         .project-card h3 {
@@ -1008,39 +1324,40 @@
             font-style: italic;
             margin-top: 20px;
         }
-     .hero {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    flex-wrap: wrap;
-}
-.hero-image img {
-    width: 260px;
-    height: 260px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid #3b82f6;
-    box-shadow: 0 0 30px rgba(59,130,246,0.4);
-    margin-top: 20px;
-}
 
-      
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-image img {
+            width: 260px;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #3b82f6;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+            margin-top: 20px;
+        }
     </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4GB5G77BHX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-4GB5G77BHX');
-</script>
-  
 </head>
 
 <body>
+
+    <!-- ============================================================
+         GLOBAL LIVE BACKGROUND — a full-page canvas that renders a
+         "neural network" of drifting, pointer-reactive particles plus
+         floating AI/data-science glyphs (Σ, {}, 01, λ, ML, AI...).
+         It sits fixed behind every section (z-index:0) so it's visible
+         the whole time someone scrolls the portfolio, not just on the
+         hero. pointer-events:none keeps it from ever blocking clicks.
+         ============================================================ -->
+    <canvas id="gbg-canvas" aria-hidden="true"></canvas>
+    <div id="gbg-glow" aria-hidden="true"></div>
 
     <section id="ap-agent-hero" role="img" aria-label="Animated AI agent introducing the portfolio owner">
 
@@ -1050,7 +1367,7 @@
             <span id="ap-wake-hint-text">✨ Tap anywhere to wake me up...</span>
         </div>
 
-        <!-- ============ animated neural-net background ============ -->
+        <!-- ============ neural-net background (static) ============ -->
         <svg class="ap-net-bg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
             <g class="ap-net-line">
                 <line x1="80" y1="120" x2="260" y2="240" />
@@ -1083,7 +1400,7 @@
             <!-- ============ HERO (name, tagline, badges) ============ -->
             <header class="hero" style="padding-bottom:0;">
                 <div class="wave">👋</div>
-                <h1>Hi, I'm <span class="ph">Souptik</span></h1>
+                <h1>Hi, I'm <span class="ph ap-shimmer-name">Souptik</span></h1>
                 <div class="tagline">
                     <strong style="color:var(--text-main)">Data Scientist / AI Engineer</strong> (Aspiring) — turning
                     raw,
@@ -1091,8 +1408,7 @@
                     data into future decisions.
                 </div>
                 <div class="badge-row">
-                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=soup28mitr@gmail.com&su=Subject%20Here&body=Hello%2C%0A%0AThis%20is%20the%20message."
-                        style="color:#ea4335;">
+                    <a href="#" id="emailMeLink" onclick="openEmail(event)" style="color:#ea4335;">
                         <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -1100,6 +1416,43 @@
                         </svg>
                         <span>Email Me</span>
                     </a>
+
+                    <script>
+                        function openEmail(event) {
+                            event.preventDefault();
+
+                            const toEmail = "soup28mitr@gmail.com";
+                            const subject = "Hello There";
+                            const body = "Hi, I wanted to reach out...";
+
+                            const encodedSubject = encodeURIComponent(subject);
+                            const encodedBody = encodeURIComponent(body);
+
+                            const ua = navigator.userAgent || navigator.vendor || window.opera;
+                            const isAndroid = /android/i.test(ua);
+                            const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+                            const isMobile = isAndroid || isIOS;
+
+                            if (isMobile) {
+                                // Try Gmail app first (works on both Android & iOS if app installed)
+                                const gmailAppLink = `googlegmail://co?to=${toEmail}&subject=${encodedSubject}&body=${encodedBody}`;
+                                const mailtoFallback = `mailto:${toEmail}?subject=${encodedSubject}&body=${encodedBody}`;
+
+                                // Attempt to open the app
+                                window.location.href = gmailAppLink;
+
+                                // If app isn't installed, browser stays on page — fallback after a short delay
+                                setTimeout(function () {
+                                    window.location.href = mailtoFallback;
+                                }, 800);
+
+                            } else {
+                                // Desktop: open Gmail compose in browser (new tab)
+                                const gmailWebLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${toEmail}&su=${encodedSubject}&body=${encodedBody}`;
+                                window.open(gmailWebLink, "_blank");
+                            }
+                        }
+                    </script>
                     <a href="https://www.linkedin.com/in/souptikmitra/" style="color:#0a66c2;">
                         <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
                             <path
@@ -1129,19 +1482,21 @@
                         <span>Twitter</span>
                     </a>
                 </div>
-
-              <!-- ADD YOUR IMAGE HERE -->
-             <div class="hero-image">
-                       <img src="images/pic.jpg" alt="Souptik" />
-              </div>
+                <!-- ADD YOUR IMAGE HERE -->
+                <div class="hero-image">
+                    <img src="images/pic.jpg" alt="Souptik" />
+                </div>
             </header>
 
             <!-- ============ agent + speech bubble ============ -->
             <div class="ap-agent-row">
-
                 <div class="ap-agent-col">
                     <!-- ---------- THE AGENT (SVG) ---------- -->
                     <div class="ap-agent-wrap" id="ap-agent-wrap">
+                        <div class="ap-aura-ring" aria-hidden="true"></div>
+                        <div class="ap-orbit ap-orbit-1" aria-hidden="true"><span class="ap-orbit-dot"></span></div>
+                        <div class="ap-orbit ap-orbit-2" aria-hidden="true"><span class="ap-orbit-dot"></span></div>
+                        <div class="ap-orbit ap-orbit-3" aria-hidden="true"><span class="ap-orbit-dot"></span></div>
                         <svg viewBox="0 0 260 300" width="100%" height="100%">
                             <defs>
                                 <radialGradient id="auraGrad" cx="50%" cy="45%" r="60%">
@@ -1333,7 +1688,7 @@
     <div class="page">
 
         <!-- ============ ABOUT ============ -->
-        <section id="about">
+        <section id="about" class="gbg-reveal">
             <div class="section-head"><span class="icon">🧭</span>
                 <h2>ABOUT ME</h2>
             </div>
@@ -1376,22 +1731,23 @@
                     <li><span class="emoji">📊</span><span>Building a Time Series/Demand Forecasting project on
                             a store dataset present in <a
                                 href='https://www.kaggle.com/competitions/demand-forecasting-kernels-only/data'>kaggle</a>
-                            to understand seasonality , patterns , forecast stuffs nicely and correctly for better future prediction</span></li>
+                            to understand seasonality , patterns , forecast stuffs nicely and correctly for better
+                            future prediction</span></li>
                 </ul>
             </div>
         </section>
 
         <!-- ============ EDUCATION ============ -->
-        <section id="education">
+        <section id="education" class="gbg-reveal">
             <div class="section-head"><span class="icon">🎓</span>
                 <h2>EDUCATION</h2>
             </div>
             <div class="panel edu-card">
-                <h3><span>B.Tech In Computer Science With Specialization in Data Science</span>, <span>KIIT,
-                        Bhuwaneshwar</span></h3>
+                <h3><span></span><span></span></h3>
                 <div class="edu-meta">
-                    <h4><span>2024</span> – <span>2028</span> · CGPA:
-                        <span>9.03</span> / 10
+                    <h4><span>B.Tech In Computer Science With Specialization in Data
+                            Science </span>[2024<span>-2028]</span> CGPA :
+                        <span>9.03/10</span>
                 </div>
                 <ul>
                     <li><span>RELEVANT_COURSEWORK</span> — e.g. Statistics, Data Structures, Machine
@@ -1402,7 +1758,7 @@
         </section>
 
         <!-- ============ SKILLS ============ -->
-        <section id="skills">
+        <section id="skills" class="gbg-reveal">
             <div class="section-head"><span class="icon">🛠️</span>
                 <h2>SKILLSET</h2>
             </div>
@@ -1460,7 +1816,7 @@
         </section>
 
         <!-- ============ PROJECTS ============ -->
-        <section id="projects">
+        <section id="projects" class="gbg-reveal">
             <div class="section-head"><span class="icon">🚀</span>
                 <h2>PROJECTS</h2>
             </div>
@@ -1780,7 +2136,7 @@
         </section>
 
         <!-- ============ CERTIFICATE SECTION ============ -->
-        <section id="certifications">
+        <section id="certifications" class="gbg-reveal">
             <div class="section-head"><span class="icon">📜</span>
                 <h2>CERTIFICATIONS</h2>
             </div>
@@ -1810,7 +2166,7 @@
         </section>
 
         <!-- ============ GITHUB STATS ============ -->
-        <section id="stats">
+        <section id="stats" class="gbg-reveal">
             <div class="section-head"><span class="icon">📈</span>
                 <h2>GITHUB STATS</h2>
             </div>
@@ -1835,32 +2191,70 @@
                 bias-variance
                 tradeoff — reach out.</p>
             <div class="contact-links">
-                <a
-                    href="https://mail.google.com/mail/?view=cm&fs=1&to=youremail@gmail.com&su=Subject%20Here&body=Hello%2C%0A%0AThis%20is%20the%20message.">📧
+                <a href="#" id="emailMeLink" onclick="openEmail(event)">📧
                     <span class="ph">soup28mitr@gmail.com</span></a>
+
+                <script>
+                    function openEmail(event) {
+                        event.preventDefault();
+
+                        const toEmail = "soup28mitr@gmail.com";
+                        const subject = "Hello There";
+                        const body = "Hi, I wanted to reach out...";
+
+                        const encodedSubject = encodeURIComponent(subject);
+                        const encodedBody = encodeURIComponent(body);
+
+                        const ua = navigator.userAgent || navigator.vendor || window.opera;
+                        const isAndroid = /android/i.test(ua);
+                        const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+                        const isMobile = isAndroid || isIOS;
+
+                        if (isMobile) {
+                            // Try Gmail app first (works on both Android & iOS if app installed)
+                            const gmailAppLink = `googlegmail://co?to=${toEmail}&subject=${encodedSubject}&body=${encodedBody}`;
+                            const mailtoFallback = `mailto:${toEmail}?subject=${encodedSubject}&body=${encodedBody}`;
+
+                            // Attempt to open the app
+                            window.location.href = gmailAppLink;
+
+                            // If app isn't installed, browser stays on page — fallback after a short delay
+                            setTimeout(function () {
+                                window.location.href = mailtoFallback;
+                            }, 800);
+
+                        } else {
+                            // Desktop: open Gmail compose in browser (new tab)
+                            const gmailWebLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${toEmail}&su=${encodedSubject}&body=${encodedBody}`;
+                            window.open(gmailWebLink, "_blank");
+                        }
+                    }
+                </script>
+
                 <a href="https://www.linkedin.com/in/souptikmitra/">💼 LinkedIn</a>
                 <a href="https://github.com/FixerSoup">💻 GitHub</a>
             </div>
             <div class="updated">Last updated: <span class="ph">August 2026</span></div>
-        <footer class="site-footer">
-  <p>&copy; <span id="year"></span> Souptik Mitra. All Rights Reserved.</p>
-</footer>
+            <footer class="site-footer">
+                <p>&copy; <span id="year"></span> Souptik Mitra. All Rights Reserved.</p>
+            </footer>
 
-<style>
-  .site-footer {
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 40px;
-    border-top: 1px solid #e0e0e0;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    font-size: 14px;
-    color: #666;
-  }
-</style>
+            <style>
+                .site-footer {
+                    text-align: center;
+                    padding: 20px 0;
+                    margin-top: 40px;
+                    border-top: 1px solid #e0e0e0;
+                    font-family: 'Segoe UI', Arial, sans-serif;
+                    font-size: 14px;
+                    color: #666;
+                }
+            </style>
 
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
+            <script>
+                document.getElementById('year').textContent = new Date().getFullYear();
+            </script>
+
         </section>
 
     </div>
@@ -1986,49 +2380,216 @@
             // silent, near-instant "primer" utterance the moment the visitor
             // taps, which warms up the engine so the first real line (the
             // greeting) is never the one that gets eaten.
+            //
+            // IMPORTANT: unlike the previous version, we do NOT call
+            // .cancel() right after .speak() here. On iOS Safari and some
+            // Android WebViews, calling cancel() a tick after speak() can
+            // leave the underlying speech queue in a broken state for the
+            // *next* speak() call in the same gesture — which is exactly
+            // what caused the agent to go silent on mobile after the first
+            // tap. The primer utterance is a single space at 10x rate, so
+            // it finishes on its own in well under 100ms and simply lets
+            // the real greeting queue up right behind it.
             let speechPrimed = false;
             function primeSpeechEngine() {
                 if (!('speechSynthesis' in window) || speechPrimed) return;
                 speechPrimed = true;
                 try {
                     refreshVoices();
-                    const primer = new SpeechSynthesisUtterance(' ');
+                    const primer = new SpeechSynthesisUtterance('.');
                     primer.volume = 0;
                     primer.rate = 10;
+                    activeUtterances.push(primer);
+                    primer.onend = primer.onerror = () => {
+                        const i = activeUtterances.indexOf(primer);
+                        if (i > -1) activeUtterances.splice(i, 1);
+                    };
                     window.speechSynthesis.speak(primer);
-                    window.speechSynthesis.cancel();
                 } catch (e) { /* ignore */ }
+            }
+
+            // Chrome (desktop and Android) has a long-standing bug where a
+            // SpeechSynthesisUtterance with no other live reference can get
+            // garbage-collected mid-speech, silently killing playback and
+            // never firing onend. Keeping every in-flight utterance in this
+            // array — and only removing it once it's actually done — is the
+            // standard workaround.
+            const activeUtterances = [];
+
+            // Chrome/Safari also silently stop speaking any single utterance
+            // that runs past ~15 seconds unless the engine is "nudged" with
+            // a pause/resume in the meantime. Splitting each line into
+            // shorter, sentence-sized utterances (below) mostly avoids this,
+            // but this watchdog is kept as a second line of defence.
+            let keepAliveTimer = null;
+            function startKeepAlive() {
+                stopKeepAlive();
+                keepAliveTimer = setInterval(() => {
+                    if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+                        window.speechSynthesis.pause();
+                        window.speechSynthesis.resume();
+                    }
+                }, 4000);
+            }
+            function stopKeepAlive() {
+                if (keepAliveTimer) { clearInterval(keepAliveTimer); keepAliveTimer = null; }
+            }
+
+            // ----------------------------------------------------------------
+            // "!" REACTION — a quick, visible pop on the agent plus a couple
+            // of spark glyphs, fired live the instant an exclamatory clause
+            // starts being spoken (see onstart below).
+            // ----------------------------------------------------------------
+            function triggerExclaimReaction() {
+                if (!agentWrap) return;
+                agentWrap.classList.remove('ap-excited');
+                void agentWrap.offsetWidth;
+                agentWrap.classList.add('ap-excited');
+                setTimeout(() => agentWrap.classList.remove('ap-excited'), 550);
+
+                const glyphs = ['✨', '⚡', '❗'];
+                for (let i = 0; i < 2; i++) {
+                    const spark = document.createElement('span');
+                    spark.className = 'ap-spark';
+                    spark.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+                    spark.style.left = (40 + Math.random() * 20) + '%';
+                    spark.style.top = (10 + Math.random() * 10) + '%';
+                    spark.style.setProperty('--sx-end', (Math.random() > 0.5 ? 1 : -1) * (16 + Math.random() * 18) + 'px');
+                    agentWrap.appendChild(spark);
+                    setTimeout(() => spark.remove(), 950);
+                }
+            }
+
+            // ----------------------------------------------------------------
+            // Split a line into sentence-sized clauses, keeping the ending
+            // punctuation attached. Long comma-separated clauses are split
+            // further so no single utterance runs long enough to risk the
+            // ~15s mobile cutoff bug. Speaking clause-by-clause (rather than
+            // one long utterance per line) is also what lets us react to
+            // "!" in real time and vary pitch/rate per clause for emphasis.
+            // ----------------------------------------------------------------
+            function splitIntoClauses(text) {
+                let parts = text.match(/[^.!?]+[.!?]*(?:\s+|$)/g) || [text];
+                const out = [];
+                parts.forEach(p => {
+                    p = p.trim();
+                    if (!p) return;
+                    if (p.length <= 90) { out.push(p); return; }
+                    // long clause (e.g. a comma-heavy list) — split further
+                    const bits = p.split(/,\s*/);
+                    let buf = '';
+                    bits.forEach((b, idx) => {
+                        const piece = b + (idx < bits.length - 1 ? ',' : '');
+                        if ((buf + ' ' + piece).trim().length > 90 && buf) {
+                            out.push(buf.trim());
+                            buf = piece;
+                        } else {
+                            buf = (buf ? buf + ' ' : '') + piece;
+                        }
+                    });
+                    if (buf.trim()) out.push(buf.trim());
+                });
+                return out.length ? out : [text];
+            }
+
+            // ----------------------------------------------------------------
+            // EXPRESSIVE DELIVERY — a single source of truth for rate/pitch
+            // per clause, used by both the normal speak path and the retry
+            // path below (previously duplicated and could drift out of sync).
+            // "!" clauses get a real, audible lift in both pitch and pace so
+            // they land with energy; "?" clauses get a gentle upward pitch
+            // so they read as genuine questions; plain statements stay calm
+            // and natural. A small per-clause jitter keeps long greetings
+            // from sounding like the same two robotic settings on repeat.
+            // ----------------------------------------------------------------
+            function clauseTone(clause) {
+                const isExclaim = /!\s*$/.test(clause);
+                const isQuestion = /\?\s*$/.test(clause);
+                const jitter = (Math.random() - 0.5) * 0.05;
+                if (isExclaim) {
+                    return { rate: 1.08 + jitter, pitch: 1.3 + jitter };
+                }
+                if (isQuestion) {
+                    return { rate: 0.97 + jitter, pitch: 1.12 + jitter };
+                }
+                return { rate: 0.95 + jitter, pitch: 1.0 + jitter };
             }
 
             function speakText(rawText, onend) {
                 const clean = rawText.replace(/#/g, '').replace(/\s+/g, ' ').trim();
                 if (!('speechSynthesis' in window) || !clean) { if (onend) onend(); return; }
 
-                const utter = new SpeechSynthesisUtterance(clean);
-                utter.rate = 0.93;
-                utter.pitch = 0.72;
-                utter.volume = 1;
-                const v = resolveVoice();
-                if (v) utter.voice = v;
-
-                let finished = false;
-                utter.onend = () => { finished = true; if (onend) onend(); };
-                utter.onerror = () => { finished = true; if (onend) onend(); };
-
                 if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
                     window.speechSynthesis.cancel();
                 }
-                window.speechSynthesis.speak(utter);
 
-                // Same "cold start" mobile bug can still occasionally eat a
-                // speak() call even after priming. If nothing started playing
-                // shortly after we asked it to, retry once — cheap insurance
-                // that costs nothing when the first attempt worked fine.
+                const clauses = splitIntoClauses(clean);
+                let settled = false;
+
+                function finish() {
+                    if (settled) return;
+                    settled = true;
+                    stopKeepAlive();
+                    if (onend) onend();
+                }
+
+                clauses.forEach((clause, idx) => {
+                    const isExclaim = /!\s*$/.test(clause);
+                    const isLastClause = idx === clauses.length - 1;
+
+                    const utter = new SpeechSynthesisUtterance(clause);
+                    // base delivery; exclamatory clauses get a real, audible
+                    // pitch/rate lift so they land with energy — see
+                    // clauseTone() above for the full expression mapping.
+                    const tone = clauseTone(clause);
+                    utter.rate = tone.rate;
+                    utter.pitch = tone.pitch;
+                    utter.volume = 1;
+                    const v = resolveVoice();
+                    if (v) utter.voice = v;
+
+                    activeUtterances.push(utter);
+                    const cleanup = () => {
+                        const i = activeUtterances.indexOf(utter);
+                        if (i > -1) activeUtterances.splice(i, 1);
+                    };
+
+                    utter.onstart = () => {
+                        startKeepAlive();
+                        if (isExclaim) triggerExclaimReaction();
+                    };
+                    utter.onend = () => { cleanup(); if (isLastClause) finish(); };
+                    utter.onerror = () => { cleanup(); if (isLastClause) finish(); };
+
+                    window.speechSynthesis.speak(utter);
+                });
+
+                // Cold-start insurance: if nothing is speaking/pending shortly
+                // after we queued everything, the whole batch got silently
+                // dropped (the mobile bug this fixes) — retry once.
                 setTimeout(() => {
-                    if (!finished && !window.speechSynthesis.speaking && !window.speechSynthesis.pending) {
-                        window.speechSynthesis.speak(utter);
+                    if (!settled && !window.speechSynthesis.speaking && !window.speechSynthesis.pending) {
+                        clauses.forEach(clause => {
+                            const isExclaim = /!\s*$/.test(clause);
+                            const retryUtter = new SpeechSynthesisUtterance(clause);
+                            const retryTone = clauseTone(clause);
+                            retryUtter.rate = retryTone.rate;
+                            retryUtter.pitch = retryTone.pitch;
+                            retryUtter.volume = 1;
+                            const v = resolveVoice();
+                            if (v) retryUtter.voice = v;
+                            activeUtterances.push(retryUtter);
+                            const cleanup = () => {
+                                const i = activeUtterances.indexOf(retryUtter);
+                                if (i > -1) activeUtterances.splice(i, 1);
+                            };
+                            retryUtter.onstart = () => { startKeepAlive(); if (isExclaim) triggerExclaimReaction(); };
+                            retryUtter.onend = () => { cleanup(); finish(); };
+                            retryUtter.onerror = () => { cleanup(); finish(); };
+                            window.speechSynthesis.speak(retryUtter);
+                        });
                     }
-                }, 250);
+                }, 350);
             }
 
             // ----------------------------------------------------------------
@@ -2255,6 +2816,205 @@
         } else {
             initAgentPortfolio();
         }
+    </script>
+
+    <!-- ================================================================
+         GLOBAL LIVE BACKGROUND ENGINE
+         A single <canvas> particle system that runs behind the entire
+         page (not just the hero). Design intent, explained simply:
+
+         No mouse/pointer reactivity anywhere — this is a purely ambient,
+         self-contained background, not an interactive one:
+         1. NODES = small glowing dots representing "data points" —
+            they drift slowly, like packets moving through a network.
+         2. EDGES = a line is drawn between two nodes only when they're
+            close enough, exactly like a k-nearest-neighbour graph —
+            so the shape re-forms itself every frame.
+         3. GLYPH DRIFT = a handful of AI/data-science symbols
+            (Σ, {}, λ, 01, ML, AI, ⚙) float upward slowly in the back,
+            reinforcing the "AI engineer" theme without being loud text.
+
+         Performance notes: everything is drawn with plain 2D canvas
+         (no libraries), the particle count scales down on small
+         screens, and the whole loop is skipped for visitors who have
+         "prefers-reduced-motion" turned on at the OS level.
+         ================================================================ -->
+    <script>
+        (function initGlobalBackground() {
+            const canvas = document.getElementById('gbg-canvas');
+            if (!canvas) return;
+
+            const reduceMotion = window.matchMedia &&
+                window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            const ctx = canvas.getContext('2d');
+            let W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+            function resize() {
+                // canvas is position:fixed, so it only ever needs to cover
+                // the current viewport — it stays put as the page scrolls,
+                // exactly like a backdrop, which also keeps the particle
+                // count/perf independent of how long the page is.
+                W = window.innerWidth;
+                H = window.innerHeight;
+                canvas.width = W * DPR;
+                canvas.height = H * DPR;
+                canvas.style.width = W + 'px';
+                canvas.style.height = H + 'px';
+                ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+            }
+
+            // ---- node network ----
+            const COLORS = ['#3b82f6', '#22d3ee', '#8b5cf6'];
+            const isSmall = window.innerWidth < 700;
+            const NODE_COUNT = isSmall ? 34 : 68;
+            const LINK_DIST = isSmall ? 110 : 150;
+            const nodes = [];
+
+            function makeNode() {
+                return {
+                    x: Math.random() * W,
+                    y: Math.random() * (window.innerHeight),
+                    vx: (Math.random() - 0.5) * 0.28,
+                    vy: (Math.random() - 0.5) * 0.28,
+                    r: 1.2 + Math.random() * 1.8,
+                    c: COLORS[Math.floor(Math.random() * COLORS.length)],
+                    pulse: Math.random() * Math.PI * 2
+                };
+            }
+
+            // ---- floating AI/data glyphs ----
+            const GLYPHS = ['Σ', '{ }', 'λ', '01', 'AI', 'ML', '∞', '⚙', '∇', 'π'];
+            const glyphs = [];
+            function makeGlyph() {
+                return {
+                    x: Math.random() * W,
+                    y: window.innerHeight + Math.random() * window.innerHeight,
+                    speed: 0.12 + Math.random() * 0.22,
+                    drift: (Math.random() - 0.5) * 0.15,
+                    size: 12 + Math.random() * 14,
+                    text: GLYPHS[Math.floor(Math.random() * GLYPHS.length)],
+                    opacity: 0.05 + Math.random() * 0.09
+                };
+            }
+
+            function seed() {
+                nodes.length = 0;
+                for (let i = 0; i < NODE_COUNT; i++) nodes.push(makeNode());
+                glyphs.length = 0;
+                const glyphCount = isSmall ? 6 : 11;
+                for (let i = 0; i < glyphCount; i++) glyphs.push(makeGlyph());
+            }
+
+            function step() {
+                const viewH = H;
+                ctx.clearRect(0, 0, W, H);
+
+                // glyphs (drawn first, further back)
+                ctx.textBaseline = 'middle';
+                ctx.textAlign = 'center';
+                glyphs.forEach(g => {
+                    g.y -= g.speed;
+                    g.x += g.drift;
+                    if (g.y < -30) { Object.assign(g, makeGlyph(), { y: viewH + 20 }); }
+                    ctx.font = `600 ${g.size}px Consolas, 'Courier New', monospace`;
+                    ctx.fillStyle = `rgba(150, 180, 255, ${g.opacity})`;
+                    ctx.fillText(g.text, g.x, g.y);
+                });
+
+                // move + draw nodes
+                nodes.forEach(n => {
+                    n.x += n.vx;
+                    n.y += n.vy;
+                    n.pulse += 0.03;
+
+                    if (n.x < -20) n.x = W + 20; else if (n.x > W + 20) n.x = -20;
+                    if (n.y < -20) n.y = viewH + 20; else if (n.y > viewH + 20) n.y = -20;
+                });
+
+                // edges (k-nearest style: connect close nodes)
+                for (let i = 0; i < nodes.length; i++) {
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const a = nodes[i], b = nodes[j];
+                        const dx = a.x - b.x, dy = a.y - b.y;
+                        const d = Math.hypot(dx, dy);
+                        if (d < LINK_DIST) {
+                            ctx.strokeStyle = `rgba(96, 165, 250, ${0.14 * (1 - d / LINK_DIST)})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(a.x, a.y);
+                            ctx.lineTo(b.x, b.y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                // nodes on top, with a soft pulse for a "breathing" feel
+                nodes.forEach(n => {
+                    const pr = n.r + Math.sin(n.pulse) * 0.6;
+                    ctx.beginPath();
+                    ctx.fillStyle = n.c;
+                    ctx.globalAlpha = 0.55 + Math.sin(n.pulse) * 0.2;
+                    ctx.arc(n.x, n.y, Math.max(pr, 0.6), 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                });
+            }
+
+            let rafId = null;
+            function loop() {
+                step();
+                rafId = requestAnimationFrame(loop);
+            }
+
+            // Reduced-motion visitors: draw one static-ish frame, no RAF loop,
+            // no pointer following — still "themed" but respects the OS setting.
+            function renderStaticFrame() {
+                nodes.forEach(n => { n.pulse = 0; });
+                step();
+            }
+
+            resize();
+            seed();
+
+            if (reduceMotion) {
+                renderStaticFrame();
+            } else {
+                loop();
+            }
+
+            let resizeTimer = null;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => { resize(); seed(); if (reduceMotion) renderStaticFrame(); }, 200);
+            });
+
+            // ------------------------------------------------------------
+            // SCROLL REVEAL — sections fade/slide up into view once, using
+            // IntersectionObserver so nothing is recalculated on scroll.
+            // threshold is 0 (fires the instant any pixel enters view) —
+            // NOT a fraction of the element's own height. A percentage
+            // threshold breaks on tall sections (e.g. Projects) on short
+            // mobile viewports, since the visible fraction of a very tall
+            // section can never reach a height-based percentage, leaving
+            // it stuck invisible forever. rootMargin triggers it a little
+            // before it's fully on-screen.
+            // ------------------------------------------------------------
+            const revealEls = document.querySelectorAll('.gbg-reveal');
+            if ('IntersectionObserver' in window && revealEls.length) {
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('gbg-in');
+                            io.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+                revealEls.forEach(el => io.observe(el));
+            } else {
+                revealEls.forEach(el => el.classList.add('gbg-in'));
+            }
+        })();
     </script>
 
 </body>
